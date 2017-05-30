@@ -1,11 +1,29 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.drrename</groupId>
 	<artifactId>drrename</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<name>DrRename</name>
-	<description>Simple Batch-Rename Tool.</description>
+	<description>Minimalistic Batch-Rename Tool.</description>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+		<github-user>kerner1000</github-user>
+		<github-repo>drrename</github-repo>
+	</properties>
+	<scm>
+		<connection>scm:git:https://github.com/${github-user}/${github-repo}.git</connection>
+		<developerConnection>scm:git:git@github.com:${github-user}/${github-repo}.git</developerConnection>
+		<url>https://github.com/${github-user}/${github-repo}</url>
+		<tag>HEAD</tag>
+	</scm>
+	<distributionManagement>
+		<repository>
+			<id>local-release-repo</id>
+			<name>alex-local</name>
+			<url>file://${user.home}/local-maven-repository</url>
+		</repository>
+	</distributionManagement>
 	<build>
 		<plugins>
 			<plugin>
@@ -66,7 +84,7 @@
 		<dependency>
 			<groupId>net.sf.kerner-utils</groupId>
 			<artifactId>kerner-utils</artifactId>
-			<version>2.0.0-SNAPSHOT</version>
+			<version>2.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.drewnoakes</groupId>

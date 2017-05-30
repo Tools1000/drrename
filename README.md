@@ -1,12 +1,16 @@
 # Dr.Rename
 
-### Minimalistic file-batch-renaming
+## Minimalistic Batch-Renamer
 
-## Features
+### Features
 
 + Rename image files by metadata-date.
 + Simple replace-renaming.
 + To-lowercase-renaming.
+
+### Documentation
+
+[drrename.github.io](https://drrename.github.io)
 
 ## Screenshots
 
