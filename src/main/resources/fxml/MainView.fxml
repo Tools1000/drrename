@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.ScrollPane?>
+
+<VBox styleClass="root" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8"
+	fx:controller="com.github.drrename.ui.controller.MainController">
+	<stylesheets>
+		<URL value="@/css/root.css" />
+	</stylesheets>
+	<children>
+		<MenuBar>
+			<menus>
+				<Menu text="File">
+					<items>
+
+
+					</items>
+				</Menu>
+				<Menu text="View">
+					<items>
+
+
+					</items>
+				</Menu>
+				<Menu text="Settings">
+					<items>
+
+					</items>
+				</Menu>
+			</menus>
+		</MenuBar>
+		<HBox>
+			<padding>
+				<Insets top="4" right="4" bottom="4" left="4" />
+			</padding>
+			<children>
+				<TextField fx:id="textFieldStartDirectory" editable="true"
+					HBox.hgrow="ALWAYS" promptText="Enter/ Copy+Paste start directory here">
+					<tooltip>
+						<Tooltip text="Enter/ Copy+Paste start directory here." />
+					</tooltip>
+				</TextField>
+			</children>
+		</HBox>
+		<HBox>
+			<padding>
+				<Insets top="4" right="4" bottom="4" left="4" />
+			</padding>
+			<children>
+				<ComboBox fx:id="comboBoxRenamingStrategy" HBox.hgrow="ALWAYS"
+					maxWidth="Infinity">
+					<tooltip>
+						<Tooltip text="Renaming strategy to use." />
+					</tooltip>
+				</ComboBox>
+			</children>
+
+		</HBox>
+
+		<HBox spacing="4" alignment="CENTER">
+			<padding>
+				<Insets top="4" right="4" bottom="4" left="4" />
+			</padding>
+			<children>
+				<TextField fx:id="textFieldReplacementStringFrom"
+					promptText="Search and replace this string, if applicable"
+					HBox.hgrow="ALWAYS" editable="true">
+					<tooltip>
+						<Tooltip text="If applicable, search and replace this string." />
+					</tooltip>
+				</TextField>
+				<TextField fx:id="textFieldReplacementStringTo"
+					promptText="Replace with this string, if applicable" HBox.hgrow="ALWAYS"
+					editable="true">
+					<tooltip>
+						<Tooltip text="If applicable, replace with this string." />
+					</tooltip>
+				</TextField>
+				<CheckBox fx:id="checkBox" prefWidth="120" text="Recursive"
+					HBox.hgrow="SOMETIMES">
+					<tooltip>
+						<Tooltip text="Descend into subdirectories?" />
+					</tooltip>
+				</CheckBox>
+			</children>
+
+		</HBox>
+
+		<HBox spacing="4" alignment="CENTER_RIGHT">
+			<padding>
+				<Insets top="4" right="4" bottom="4" left="4" />
+			</padding>
+			<ProgressBar fx:id="progressBar" HBox.hgrow="ALWAYS"
+				maxWidth="Infinity" visible="false"></ProgressBar>
+			<Button fx:id="buttonGo" prefWidth="100" onAction="#handleButtonActionGo"
+				text="Go">
+				<tooltip>
+					<Tooltip text="Start renaming." />
+				</tooltip>
+			</Button>
+		</HBox>
+		<ScrollPane>
+			<padding>
+				<Insets top="4" right="4" bottom="4" left="4" />
+			</padding>
+			<VBox fx:id="tilePane" spacing="2">
+			</VBox>
+		</ScrollPane>
+	</children>
+</VBox>
