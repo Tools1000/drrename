@@ -8,10 +8,6 @@
 + Simple replace-renaming.
 + To-lowercase-renaming.
 
-### Documentation
-
-[drrename.github.io](https://drrename.github.io)
-
 ## Screenshots
 
 ![alt text](screenshots/mainwindow01.png)

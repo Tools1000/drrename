@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.drrename.RenamingService;
 import com.github.drrename.model.ImageDateRenamingStrategy;
+import com.github.drrename.model.RegexReplaceRenamingStrategy;
 import com.github.drrename.model.RenamingStrategy;
 import com.github.drrename.model.SimpleReplaceRenamingStrategy;
 import com.github.drrename.model.ToLowerCaseRenamingStrategy;
@@ -35,8 +36,9 @@ public class MainController implements Initializable {
     static List<RenamingStrategy> getRenamingStrategies() {
 	final List<RenamingStrategy> result = new ArrayList<>();
 	result.add(new SimpleReplaceRenamingStrategy());
-	result.add(new ImageDateRenamingStrategy());
+	result.add(new RegexReplaceRenamingStrategy());
 	result.add(new ToLowerCaseRenamingStrategy());
+	result.add(new ImageDateRenamingStrategy());
 
 	return result;
     }
