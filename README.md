@@ -10,7 +10,7 @@
 
 ## Documentation
 
-[[Wiki|github.com/kerner1000/drrename/wiki]]
+[Wiki](https://github.com/kerner1000/drrename/wiki)
 
 ## Screenshots
 
