@@ -8,6 +8,10 @@
 + Simple replace-renaming.
 + To-lowercase-renaming.
 
+## Documentation
+
+[[Wiki|github.com/kerner1000/drrename/wiki]]
+
 ## Screenshots
 
 ![alt text](screenshots/mainwindow01.png)
