@@ -6,6 +6,7 @@
 
 + Rename image files by metadata-date.
 + Simple replace-renaming.
++ Regex replace-renaming.
 + To-lowercase-renaming.
 
 ## Documentation
