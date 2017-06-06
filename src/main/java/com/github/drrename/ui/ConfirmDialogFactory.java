@@ -8,6 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.layout.Region;
 import net.sf.kerner.utils.concurrent.Pipe;
 
 public interface ConfirmDialogFactory {
@@ -28,6 +29,7 @@ public interface ConfirmDialogFactory {
 		final ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 
 		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeThree, buttonTypeCancel);
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 
 		final Optional<ButtonType> result = alert.showAndWait();
 		try {

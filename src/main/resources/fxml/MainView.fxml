@@ -111,7 +111,7 @@
 				</tooltip>
 			</Button>
 		</HBox>
-		<ScrollPane>
+		<ScrollPane prefHeight="140">
 			<padding>
 				<Insets top="4" right="4" bottom="4" left="4" />
 			</padding>

@@ -21,6 +21,7 @@ import javafx.beans.property.StringProperty;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -93,8 +94,10 @@ public class RenamingService extends Service<Void> implements JobRename.Listener
     @Override
     public void nextFile(final String oldName, final String newName) {
 	final Text t1 = new Text(oldName);
+	t1.setFill(Color.TOMATO);
 	final Text t2 = new Text(" -> ");
 	final Text t3 = new Text(newName);
+	t3.setFill(Color.MEDIUMSEAGREEN);
 
 	final TextFlow tf = new TextFlow();
 	tf.getChildren().addAll(t1, t2, t3);
