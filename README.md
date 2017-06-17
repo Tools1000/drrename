@@ -1,5 +1,7 @@
 # Dr.Rename
 
+[![Build Status](https://travis-ci.org/kerner1000/drrename.svg?branch=master)](https://travis-ci.org/kerner1000/drrename)
+
 ## Minimalistic Batch-Renamer
 
 ### Features
