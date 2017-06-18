@@ -6,7 +6,6 @@ addons:
   apt:
     packages:
       - oracle-java8-installer
-before_script: cd simple
 script: "mvn clean package"
 notifications:
   email:
