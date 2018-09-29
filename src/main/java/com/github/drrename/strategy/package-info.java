@@ -1,8 +1,8 @@
 /**
- *
+ * 
  */
 /**
  * @author Alexander Kerner
  *
  */
-package com.github.drrename.event;
+package com.github.drrename.strategy;
