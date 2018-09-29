@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 public abstract class RenamingStrategyProto implements RenamingStrategy {
 
+	private static final Logger logger = LoggerFactory.getLogger(RenamingStrategyProto.class);
 	private final static Pattern pattern = Pattern.compile(".*_(\\d*)$");
 	private String replacementStringFrom = null;
 	private String replacementStringTo = "_";
@@ -24,7 +25,9 @@ public abstract class RenamingStrategyProto implements RenamingStrategy {
 	 * numbered suffixes for file names that exist already.
 	 *
 	 * @param file
+	 *            the file to rename
 	 * @param nameNew
+	 *            the new file name
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
@@ -34,24 +37,23 @@ public abstract class RenamingStrategyProto implements RenamingStrategy {
 			throw new InterruptedException("Cancelled");
 		int fileNameCounter = 1;
 		try {
-			final Logger log = LoggerFactory.getLogger(this.getClass());
 			final String nameOld = getNameOld(file);
-			if(log.isDebugEnabled())
-				log.debug("Renaming" + IOUtils.LINE_SEPARATOR + "old:\t" + nameOld + IOUtils.LINE_SEPARATOR + "new:\t" + nameNew);
+			if(logger.isDebugEnabled())
+				logger.debug("Renaming" + IOUtils.LINE_SEPARATOR + "old:\t" + nameOld + IOUtils.LINE_SEPARATOR + "new:\t" + nameNew);
 			Files.move(file, file.resolveSibling(nameNew));
 		} catch(final FileAlreadyExistsException e) {
 			final String extension = FilenameUtils.getExtension(nameNew);
-			String rawName = FilenameUtils.getBaseName(nameNew);
-			final Matcher matcher = pattern.matcher(rawName);
+			String baseName = FilenameUtils.getBaseName(nameNew);
+			final Matcher matcher = pattern.matcher(baseName);
 			if(matcher.matches()) {
 				final String group = matcher.group(1);
 				final int index = matcher.start(1);
-				rawName = rawName.substring(0, index - 1); // also omit '_'
+				baseName = baseName.substring(0, index - 1); // also omit '_'
 				// string
 				fileNameCounter = Integer.parseInt(group);
 			}
 			fileNameCounter++;
-			nameNew = rawName + "_" + fileNameCounter + "." + extension;
+			nameNew = baseName + "_" + fileNameCounter + "." + extension;
 			doRename(file, nameNew);
 		}
 	}
