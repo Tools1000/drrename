@@ -18,9 +18,9 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
 
-public class ImageDateRenamingStrategy extends RenamingStrategyProto {
+public class MediaMetadataRenamingStrategy extends RenamingStrategyProto {
 
-	private static final Logger logger = LoggerFactory.getLogger(ImageDateRenamingStrategy.class);
+	private static final Logger logger = LoggerFactory.getLogger(MediaMetadataRenamingStrategy.class);
 	public static final DateTimeFormatter DATE_FORMATTER_WRITE = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
 	public static final List<DateTimeFormatter> DATE_FORMATTERS_READ = new ArrayList<>();
 	static {
@@ -31,7 +31,7 @@ public class ImageDateRenamingStrategy extends RenamingStrategyProto {
 	@Override
 	public String getIdentifier() {
 
-		return "Image Date from Metadata";
+		return "Date from Metadata";
 	}
 
 	@Override

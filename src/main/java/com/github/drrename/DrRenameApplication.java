@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.drrename.event.AvailableRenamingStrategyEvent;
-import com.github.drrename.strategy.ImageDateRenamingStrategy;
+import com.github.drrename.strategy.MediaMetadataRenamingStrategy;
 import com.github.drrename.strategy.RegexReplaceRenamingStrategy;
 import com.github.drrename.strategy.RenamingStrategy;
 import com.github.drrename.strategy.SimpleReplaceRenamingStrategy;
@@ -63,7 +63,7 @@ public class DrRenameApplication extends Application {
 		result.add(new SimpleReplaceRenamingStrategy());
 		result.add(new RegexReplaceRenamingStrategy());
 		result.add(new ToLowerCaseRenamingStrategy());
-		result.add(new ImageDateRenamingStrategy());
+		result.add(new MediaMetadataRenamingStrategy());
 		return result;
 	}
 }
