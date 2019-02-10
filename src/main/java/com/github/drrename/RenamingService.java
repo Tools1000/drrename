@@ -27,7 +27,8 @@ import javafx.scene.text.TextFlow;
 
 /**
  *
- * @author alex
+ * @author Alexander Kerner
+ *
  */
 public class RenamingService extends Service<Void> implements JobRename.Listener {
 

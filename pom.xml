@@ -42,7 +42,7 @@
 					<descriptor>src/assembly/assembly.xml</descriptor>
 					<archive>
 						<manifest>
-							<mainClass>com.github.drrename.DrRenameApplication</mainClass>
+							<mainClass>com.github.drrename.DrRenameApplication2</mainClass>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
 						</manifest>
@@ -102,9 +102,20 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-library</artifactId>
+			<version>1.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.github.kerner1000</groupId>
 			<artifactId>events1000</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.kerner1000</groupId>
+			<artifactId>tools1000</artifactId>
+			<version>0.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>

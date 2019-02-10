@@ -17,8 +17,8 @@ public abstract class RenamingStrategyProto implements RenamingStrategy {
 
 	private static final Logger logger = LoggerFactory.getLogger(RenamingStrategyProto.class);
 	private final static Pattern pattern = Pattern.compile(".*_(\\d*)$");
-	private String replacementStringFrom = null;
-	private String replacementStringTo = "_";
+	private String replacementStringFrom = "";
+	private String replacementStringTo = "";
 
 	/**
 	 * Performs the rename. Does not override existing files, but creates
@@ -28,19 +28,27 @@ public abstract class RenamingStrategyProto implements RenamingStrategy {
 	 *            the file to rename
 	 * @param nameNew
 	 *            the new file name
+	 * @return
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	protected void doRename(final Path file, String nameNew) throws IOException, InterruptedException {
+	protected Path doRename(final Path file, String nameNew) throws IOException, InterruptedException {
 
 		if(Thread.currentThread().isInterrupted())
 			throw new InterruptedException("Cancelled");
 		int fileNameCounter = 1;
 		try {
 			final String nameOld = getNameOld(file);
-			if(logger.isDebugEnabled())
+			if(nameOld.equals(nameNew)) {
+				if(logger.isDebugEnabled()) {
+					logger.debug("Skipping '" + nameOld + "'");
+				}
+				return file;
+			}
+			if(logger.isDebugEnabled()) {
 				logger.debug("Renaming" + IOUtils.LINE_SEPARATOR + "old:\t" + nameOld + IOUtils.LINE_SEPARATOR + "new:\t" + nameNew);
-			Files.move(file, file.resolveSibling(nameNew));
+			}
+			return Files.move(file, file.resolveSibling(nameNew));
 		} catch(final FileAlreadyExistsException e) {
 			final String extension = FilenameUtils.getExtension(nameNew);
 			String baseName = FilenameUtils.getBaseName(nameNew);
@@ -54,7 +62,7 @@ public abstract class RenamingStrategyProto implements RenamingStrategy {
 			}
 			fileNameCounter++;
 			nameNew = baseName + "_" + fileNameCounter + "." + extension;
-			doRename(file, nameNew);
+			return doRename(file, nameNew);
 		}
 	}
 
@@ -80,9 +88,9 @@ public abstract class RenamingStrategyProto implements RenamingStrategy {
 	}
 
 	@Override
-	public void rename(final Path file, final BasicFileAttributes attrs) throws IOException, InterruptedException {
+	public Path rename(final Path file, final BasicFileAttributes attrs) throws IOException, InterruptedException {
 
-		doRename(file, getNameNew(file));
+		return doRename(file, getNameNew(file));
 	}
 
 	@Override

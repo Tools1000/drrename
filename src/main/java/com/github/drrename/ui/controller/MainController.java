@@ -12,8 +12,8 @@ import com.github.drrename.RenamingService;
 import com.github.drrename.event.AvailableRenamingStrategyEvent;
 import com.github.drrename.strategy.RenamingStrategy;
 import com.github.events1000.api.Event;
-import com.github.events1000.api.EventTopic;
 import com.github.events1000.api.Events;
+import com.github.events1000.listener.api.AbstractSynchronousEventListener;
 import com.github.events1000.listener.api.SynchronousEventListener;
 
 import javafx.application.Platform;
@@ -51,10 +51,10 @@ public class MainController implements Initializable {
 	@FXML
 	private VBox tilePane;
 	private boolean working;
-	private final SynchronousEventListener stategyListener = new SynchronousEventListener() {
+	private final SynchronousEventListener stategyListener = new AbstractSynchronousEventListener(AvailableRenamingStrategyEvent.EVENT_TOPIC) {
 
 		@Override
-		public boolean visit(final Event e) {
+		public void handle(final Event e) {
 
 			if(logger.isDebugEnabled())
 				logger.debug("Got event " + e);
@@ -62,13 +62,6 @@ public class MainController implements Initializable {
 				comboBoxRenamingStrategy.getItems().add(((AvailableRenamingStrategyEvent)e).getData());
 				comboBoxRenamingStrategy.getSelectionModel().selectFirst();
 			}
-			return false;
-		}
-
-		@Override
-		public EventTopic getTopic() {
-
-			return AvailableRenamingStrategyEvent.EVENT_TOPIC;
 		}
 	};
 

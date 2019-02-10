@@ -14,7 +14,7 @@ public interface RenamingStrategy {
 
 	boolean isReplacing();
 
-	void rename(Path file, BasicFileAttributes attrs) throws IOException, InterruptedException;
+	Path rename(Path file, BasicFileAttributes attrs) throws IOException, InterruptedException;
 
 	void setReplacementStringFrom(String replacement);
 
