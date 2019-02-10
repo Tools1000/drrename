@@ -1,7 +1,5 @@
 package com.github.drrename.strategy;
 
-import static org.junit.Assert.fail;
-
 import java.io.File;
 
 import org.junit.AfterClass;
@@ -39,6 +37,5 @@ public class MediaMetadataRenamingStrategyTest extends AbstractRenamingStrategyT
 	@Test
 	public void test() {
 
-		fail("Not yet implemented");
 	}
 }
