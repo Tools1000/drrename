@@ -75,9 +75,9 @@
 								<Insets top="4" right="4" bottom="4" left="4" />
 							</padding>
 							<ScrollPane fx:id="scroll1" fitToHeight="true"
-								fitToWidth="true" vbarPolicy="AS_NEEDED" hbarPolicy="AS_NEEDED"
+								 vbarPolicy="AS_NEEDED" hbarPolicy="AS_NEEDED"
 								VBox.vgrow="always">
-								<VBox fx:id="content1" spacing="4"></VBox>
+								<VBox fx:id="content1" spacing="4" maxWidth="Infinity" ></VBox>
 							</ScrollPane>
 						</VBox>
 
@@ -86,16 +86,14 @@
 								<Insets top="4" right="4" bottom="4" left="4" />
 							</padding>
 							<ScrollPane fx:id="scroll2" fitToHeight="true"
-								fitToWidth="true" vbarPolicy="AS_NEEDED" hbarPolicy="AS_NEEDED"
+								 vbarPolicy="AS_NEEDED" hbarPolicy="AS_NEEDED"
 								VBox.vgrow="always">
-								<VBox fx:id="content2" spacing="4"></VBox>
+								<VBox fx:id="content2" spacing="4" maxWidth="Infinity" ></VBox>
 							</ScrollPane>
 						</VBox>
-
 					</SplitPane>
 					<!-- </ScrollPane> -->
 				</VBox>
-
 			</center>
 			<bottom>
 				<BorderPane>

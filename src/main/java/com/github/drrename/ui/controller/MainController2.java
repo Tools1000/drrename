@@ -281,6 +281,9 @@ public class MainController2 implements Initializable {
 		});
 		sr.setOnSucceeded(e -> setWorking(false));
 		scroll1.vvalueProperty().bindBidirectional(scroll2.vvalueProperty());
+		content1.prefWidthProperty().bind(scroll1.widthProperty());
+		content2.prefWidthProperty().bind(scroll2.widthProperty());
+		// scrollPane.prefHeightProperty().bind(contentPane.heightProperty());
 	}
 
 	public boolean isWorking() {
