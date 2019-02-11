@@ -20,6 +20,7 @@ import com.github.drrename.RenamingBean;
 import com.github.drrename.RenamingService2;
 import com.github.drrename.event.AvailableRenamingStrategyEvent;
 import com.github.drrename.strategy.RenamingStrategy;
+import com.github.drrename.ui.TextUtils;
 import com.github.events1000.api.Event;
 import com.github.events1000.api.Events;
 import com.github.events1000.listener.api.AbstractSynchronousEventListener;
@@ -142,9 +143,19 @@ public class MainController2 implements Initializable {
 	private PairSame<TextField> buildRenameEntryNode(final RenamingBean f) {
 
 		final TextField tLeft = new TextField(f.getOldPath().getFileName().toString());
+		tLeft.setPrefWidth(TextUtils.computeTextWidth(tLeft.getFont(), tLeft.getText(), 0.0D) + 10);
 		final TextField tRight = new TextField();
 		tLeft.setEditable(false);
 		tRight.setEditable(false);
+		tRight.textProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(final ObservableValue<? extends String> ob, final String o, final String n) {
+
+				final double w = TextUtils.computeTextWidth(tRight.getFont(), n, 0.0D) + 10;
+				tRight.setPrefWidth(w);
+			}
+		});
 		final Color vColor = Color.web("#f5f5f5");
 		tLeft.setBackground(new Background(new BackgroundFill(vColor, CornerRadii.EMPTY, Insets.EMPTY)));
 		tRight.setBackground(new Background(new BackgroundFill(vColor, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -281,8 +292,8 @@ public class MainController2 implements Initializable {
 		});
 		sr.setOnSucceeded(e -> setWorking(false));
 		scroll1.vvalueProperty().bindBidirectional(scroll2.vvalueProperty());
-		content1.prefWidthProperty().bind(scroll1.widthProperty());
-		content2.prefWidthProperty().bind(scroll2.widthProperty());
+		// content1.prefWidthProperty().bind(scroll1.widthProperty());
+		// content2.prefWidthProperty().bind(scroll2.widthProperty());
 		// scrollPane.prefHeightProperty().bind(contentPane.heightProperty());
 	}
 
