@@ -1,9 +1,6 @@
 package com.github.drrename.strategy;
 
 import java.nio.file.Path;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,23 +15,25 @@ public class RegexReplaceRenamingStrategy extends RenamingStrategyProto {
 		return "Regex Replace";
 	}
 
-	@Override
-	public String getNameNew(final Path file) throws InterruptedException {
+	public String getNameNew(final String string) throws InterruptedException {
 
 		if(Thread.currentThread().isInterrupted())
 			throw new InterruptedException("Cancelled");
 		try {
-			final Pattern pattern = Pattern.compile(getReplacementStringFrom());
-			final Matcher matcher = pattern.matcher(file.getFileName().toString());
-			if(matcher.matches() && (matcher.groupCount() > 0))
-				return file.getFileName().toString().replaceAll(matcher.group(1), getReplacementStringTo());
-			else
-				return file.getFileName().toString().replaceFirst(getReplacementStringFrom(), getReplacementStringTo());
-		} catch(final PatternSyntaxException e) {
-			if(logger.isErrorEnabled())
-				logger.error(e.getLocalizedMessage());
+			return string.replaceAll(getReplacementStringFrom(), getReplacementStringTo());
+		} catch(final Exception e) {
+			if(logger.isDebugEnabled()) {
+				logger.debug(e.getLocalizedMessage());
+			}
+			// ignore pattern syntax exception
 		}
-		return file.getFileName().toString();
+		return string;
+	}
+
+	@Override
+	public String getNameNew(final Path file) throws InterruptedException {
+
+		return getNameNew(file.getFileName().toString());
 	}
 
 	@Override
