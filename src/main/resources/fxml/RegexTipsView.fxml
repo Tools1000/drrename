@@ -36,7 +36,7 @@
 			</columnConstraints>
 			<children>
 				<Label wrapText="true"  GridPane.rowIndex="0" GridPane.columnIndex="0"
-					text="Matches the filename without extension"></Label>
+					text="Matches the filename and the extension in a separate group. Access the file name only with '$1', the file extension with '$2'"></Label>
 				<TextField editable="false" GridPane.rowIndex="0"
 					GridPane.columnIndex="1" text="(.+?)(\.[^.]*$|$)"></TextField>
 			</children>

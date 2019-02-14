@@ -51,4 +51,13 @@ public class RegexReplaceRenamingStrategyTest {
 		final String newName = s.getNameNew(testName01);
 		assertThat(newName, is("abc-XX-abc.txt"));
 	}
+
+	@Test
+	public void test03() throws Exception {
+
+		s.setReplacementStringFrom("(.+?)(\\.[^.]*$|$)");
+		s.setReplacementStringTo("XX");
+		final String newName = s.getNameNew(testName01);
+		assertThat(newName, is("XX.txt"));
+	}
 }

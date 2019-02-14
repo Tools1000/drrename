@@ -5,6 +5,7 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +20,7 @@ public abstract class RenamingStrategyProto implements RenamingStrategy {
 	private final static Pattern pattern = Pattern.compile(".*_(\\d*)$");
 	private String replacementStringFrom = "";
 	private String replacementStringTo = "";
+	private AdditionalParam additionalParam;
 
 	/**
 	 * Performs the rename. Does not override existing files, but creates
@@ -109,5 +111,22 @@ public abstract class RenamingStrategyProto implements RenamingStrategy {
 	public String toString() {
 
 		return getIdentifier();
+	}
+
+	@Override
+	public Optional<AdditionalParam> getAdditionalParam() {
+
+		return Optional.ofNullable(additionalParam);
+	}
+
+	public void setAdditionalParam(final AdditionalParam additionalParam) {
+
+		this.additionalParam = additionalParam;
+	}
+
+	@Override
+	public boolean hasAdditionalParam() {
+
+		return getAdditionalParam().isPresent();
 	}
 }

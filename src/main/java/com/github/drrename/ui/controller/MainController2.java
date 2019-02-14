@@ -42,6 +42,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -80,6 +81,7 @@ public class MainController2 implements Initializable {
 	private ChangeListener<? super String> textFieldChangeListener;
 	private ChangeListener<? super String> replaceStringFromChangeListener;
 	private ChangeListener<? super String> replaceStringToChangeListener;
+	private ChangeListener<? super Object> updateViewListener;
 	private List<RenamingBean> files;
 	@FXML
 	private ComboBox<RenamingStrategy> comboBoxRenamingStrategy;
@@ -88,6 +90,10 @@ public class MainController2 implements Initializable {
 	private boolean working;
 	@FXML
 	private ProgressBar progressBar;
+	@FXML
+	private Label additionalParamDescription;
+	@FXML
+	private TextField additionalParamValue;
 	private String currentInputString;
 	private final SynchronousEventListener stategyListener = new AbstractSynchronousEventListener(AvailableRenamingStrategyEvent.EVENT_TOPIC) {
 
@@ -122,6 +128,7 @@ public class MainController2 implements Initializable {
 		};
 		replaceStringFromChangeListener = (e, o, n) -> Platform.runLater(() -> updateOutputView());
 		replaceStringToChangeListener = (e, o, n) -> Platform.runLater(() -> updateOutputView());
+		updateViewListener = (e, o, n) -> Platform.runLater(() -> updateOutputView());
 	}
 
 	private void updateInputView() {
@@ -143,7 +150,7 @@ public class MainController2 implements Initializable {
 	private PairSame<TextField> buildRenameEntryNode(final RenamingBean f) {
 
 		final TextField tLeft = new TextField(f.getOldPath().getFileName().toString());
-		tLeft.setPrefWidth(TextUtils.computeTextWidth(tLeft.getFont(), tLeft.getText(), 0.0D) + 10);
+		tLeft.setPrefWidth(TextUtils.computeTextWidth(tLeft.getFont(), tLeft.getText(), 0.0D) + 40); // due to paddings, insets, n stuff, we need a little bit more space
 		final TextField tRight = new TextField();
 		tLeft.setEditable(false);
 		tRight.setEditable(false);
@@ -152,7 +159,7 @@ public class MainController2 implements Initializable {
 			@Override
 			public void changed(final ObservableValue<? extends String> ob, final String o, final String n) {
 
-				final double w = TextUtils.computeTextWidth(tRight.getFont(), n, 0.0D) + 10;
+				final double w = TextUtils.computeTextWidth(tRight.getFont(), n, 0.0D) + 40; // due to paddings, insets, n stuff, we need a little bit more space
 				tRight.setPrefWidth(w);
 			}
 		});
@@ -269,6 +276,7 @@ public class MainController2 implements Initializable {
 		textFieldStartDirectory.textProperty().addListener(textFieldChangeListener);
 		textFieldReplacementStringFrom.textProperty().addListener(replaceStringFromChangeListener);
 		textFieldReplacementStringTo.textProperty().addListener(replaceStringToChangeListener);
+		additionalParamValue.textProperty().addListener(updateViewListener);
 		comboBoxRenamingStrategy.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<RenamingStrategy>() {
 
 			@Override
@@ -276,6 +284,17 @@ public class MainController2 implements Initializable {
 
 				textFieldReplacementStringFrom.setDisable(!newValue.isReplacing());
 				textFieldReplacementStringTo.setDisable(!newValue.isReplacing());
+				if((oldValue != null) && oldValue.hasAdditionalParam()) {
+					additionalParamDescription.setVisible(false);
+					additionalParamValue.setVisible(false);
+					oldValue.getAdditionalParam().get().valueProperty().unbind();
+				}
+				if((newValue != null) && newValue.hasAdditionalParam()) {
+					additionalParamDescription.setVisible(true);
+					additionalParamValue.setVisible(true);
+					additionalParamDescription.setText(newValue.getAdditionalParam().get().getDescription());
+					newValue.getAdditionalParam().get().valueProperty().bind(additionalParamValue.textProperty());
+				}
 				updateOutputView();
 			}
 		});

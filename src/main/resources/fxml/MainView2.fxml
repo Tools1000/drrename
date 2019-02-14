@@ -16,6 +16,9 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.SplitPane?>
 
 <VBox styleClass="root" xmlns:fx="http://javafx.com/fxml/1"
 	xmlns="http://javafx.com/javafx/8"
@@ -32,7 +35,8 @@
 				</Menu>
 				<Menu text="Help">
 					<items>
-					 <MenuItem text="Regex Tips" onAction="#handleMenuItemRegexTips" accelerator="Shortcut+T"></MenuItem>
+						<MenuItem text="Regex Tips"
+							onAction="#handleMenuItemRegexTips" accelerator="Shortcut+T"></MenuItem>
 					</items>
 				</Menu>
 				<Menu text="Settings">
@@ -75,9 +79,9 @@
 								<Insets top="4" right="4" bottom="4" left="4" />
 							</padding>
 							<ScrollPane fx:id="scroll1" fitToHeight="true"
-								 vbarPolicy="AS_NEEDED" hbarPolicy="AS_NEEDED"
+								vbarPolicy="AS_NEEDED" hbarPolicy="AS_NEEDED"
 								VBox.vgrow="always">
-								<VBox fx:id="content1" spacing="4" maxWidth="Infinity" ></VBox>
+								<VBox fx:id="content1" spacing="4" maxWidth="Infinity"></VBox>
 							</ScrollPane>
 						</VBox>
 
@@ -86,9 +90,9 @@
 								<Insets top="4" right="4" bottom="4" left="4" />
 							</padding>
 							<ScrollPane fx:id="scroll2" fitToHeight="true"
-								 vbarPolicy="AS_NEEDED" hbarPolicy="AS_NEEDED"
+								vbarPolicy="AS_NEEDED" hbarPolicy="AS_NEEDED"
 								VBox.vgrow="always">
-								<VBox fx:id="content2" spacing="4" maxWidth="Infinity" ></VBox>
+								<VBox fx:id="content2" spacing="4" maxWidth="Infinity"></VBox>
 							</ScrollPane>
 						</VBox>
 					</SplitPane>
@@ -121,17 +125,25 @@
 						</VBox>
 					</top>
 					<center>
-						<VBox>
+						<HBox spacing="4">
 							<padding>
 								<Insets top="4" right="4" bottom="4" left="4" />
 							</padding>
-							<ComboBox fx:id="comboBoxRenamingStrategy"
+							<ComboBox fx:id="comboBoxRenamingStrategy" minWidth="20"
 								HBox.hgrow="ALWAYS" maxWidth="Infinity">
 								<tooltip>
 									<Tooltip text="Renaming strategy to use." />
 								</tooltip>
 							</ComboBox>
-						</VBox>
+							<SplitPane >
+							<padding>
+								<Insets top="0" right="4" bottom="0" left="4" />
+							</padding>
+							<Label fx:id="additionalParamDescription" alignment="CENTER" minWidth="20" maxWidth="Infinity" visible="false"></Label>
+							<TextField fx:id="additionalParamValue" alignment="CENTER" minWidth="20" visible="false"></TextField>
+							</SplitPane >
+							
+						</HBox>
 					</center>
 					<bottom>
 
