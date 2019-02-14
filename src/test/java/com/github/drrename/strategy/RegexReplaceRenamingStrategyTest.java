@@ -56,7 +56,7 @@ public class RegexReplaceRenamingStrategyTest {
 	public void test03() throws Exception {
 
 		s.setReplacementStringFrom("(.+?)(\\.[^.]*$|$)");
-		s.setReplacementStringTo("XX");
+		s.setReplacementStringTo("XX$2");
 		final String newName = s.getNameNew(testName01);
 		assertThat(newName, is("XX.txt"));
 	}
