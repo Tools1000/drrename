@@ -18,11 +18,3 @@
 [Wiki](https://github.com/kerner1000/drrename/wiki)
 
 ## Screenshots
-
-![alt text](screenshots/mainwindow01.png)
-
-![alt text](screenshots/strategydropdown01.png)
-
-![alt text](screenshots/confirm01.png)
-
-![alt text](screenshots/log01.png)
