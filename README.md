@@ -18,3 +18,7 @@
 [Wiki](https://github.com/kerner1000/drrename/wiki)
 
 ## Screenshots
+
+![Main Window](screenshots/main.png)
+
+![Renaming](screenshots/metadata-rename.png)
