@@ -3,6 +3,7 @@ package com.github.drrename;
 import java.util.List;
 
 import com.github.drrename.strategy.RenamingStrategy;
+import com.github.drrename.ui.RenamingBean;
 
 import javafx.concurrent.Task;
 
@@ -22,7 +23,7 @@ public class RenamingTask extends Task<Void> {
 	protected Void call() throws Exception {
 
 		for(final RenamingBean b : elements) {
-			b.apply(strategy);
+			b.rename(strategy);
 		}
 		return null;
 	}

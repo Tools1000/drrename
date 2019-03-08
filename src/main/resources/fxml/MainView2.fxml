@@ -19,10 +19,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.ListView?>
 
 <VBox styleClass="root" xmlns:fx="http://javafx.com/fxml/1"
 	xmlns="http://javafx.com/javafx/8"
-	fx:controller="com.github.drrename.ui.controller.MainController2">
+	fx:controller="com.github.drrename.ui.MainController2">
 	<stylesheets>
 		<URL value="@/css/root.css" />
 	</stylesheets>
@@ -46,6 +48,7 @@
 			</menus>
 		</MenuBar>
 
+
 		<BorderPane VBox.vgrow="ALWAYS">
 			<top>
 				<HBox>
@@ -64,40 +67,48 @@
 				</HBox>
 			</top>
 			<center>
-				<VBox>
-					<padding>
-						<Insets top="4" right="4" bottom="4" left="4" />
-					</padding>
 
-					<!-- <ScrollPane fx:id="scrollPane" style="-fx-background-color: red;" 
-						fitToHeight="true" fitToWidth="true" vbarPolicy="AS_NEEDED" hbarPolicy="AS_NEEDED"> -->
+				<StackPane>
 
-					<SplitPane VBox.vgrow="always">
+					<VBox>
+						<padding>
+							<Insets top="4" right="4" bottom="4" left="4" />
+						</padding>
 
-						<VBox spacing="4">
-							<padding>
-								<Insets top="4" right="4" bottom="4" left="4" />
-							</padding>
-							<ScrollPane fx:id="scroll1" fitToHeight="true"
-								vbarPolicy="AS_NEEDED" hbarPolicy="AS_NEEDED"
-								VBox.vgrow="always">
-								<VBox fx:id="content1" spacing="4" maxWidth="Infinity"></VBox>
-							</ScrollPane>
-						</VBox>
+						<!-- <ScrollPane fx:id="scrollPane" style="-fx-background-color: red;" 
+							fitToHeight="true" fitToWidth="true" vbarPolicy="AS_NEEDED" hbarPolicy="AS_NEEDED"> -->
 
-						<VBox spacing="4">
-							<padding>
-								<Insets top="4" right="4" bottom="4" left="4" />
-							</padding>
-							<ScrollPane fx:id="scroll2" fitToHeight="true"
-								vbarPolicy="AS_NEEDED" hbarPolicy="AS_NEEDED"
-								VBox.vgrow="always">
-								<VBox fx:id="content2" spacing="4" maxWidth="Infinity"></VBox>
-							</ScrollPane>
-						</VBox>
-					</SplitPane>
-					<!-- </ScrollPane> -->
-				</VBox>
+						<SplitPane VBox.vgrow="always">
+
+							<VBox spacing="4">
+								<padding>
+									<Insets top="4" right="4" bottom="4" left="4" />
+								</padding>
+								<ListView fx:id="content1" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"></ListView>
+							</VBox>
+
+							<VBox spacing="4">
+								<padding>
+									<Insets top="4" right="4" bottom="4" left="4" />
+								</padding>
+								<ListView fx:id="content2" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"></ListView>
+							</VBox>
+						</SplitPane>
+						<!-- </ScrollPane> -->
+					</VBox>
+					<BorderPane fx:id="workingCover" visible="false">
+						<center>
+							<HBox>
+								<padding>
+									<Insets top="4" right="4" bottom="4" left="4" />
+								</padding>
+								<Label text="Working"
+									style="-fx-background-color: gainsboro;" HBox.hgrow="ALWAYS"
+									maxWidth="Infinity" maxHeight="Infinity" alignment="CENTER"></Label>
+							</HBox>
+						</center>
+					</BorderPane>
+				</StackPane>
 			</center>
 			<bottom>
 				<BorderPane>
@@ -135,18 +146,20 @@
 									<Tooltip text="Renaming strategy to use." />
 								</tooltip>
 							</ComboBox>
-							<SplitPane >
-							<padding>
-								<Insets top="0" right="4" bottom="0" left="4" />
-							</padding>
-							<Label fx:id="additionalParamDescription" alignment="CENTER" minWidth="20" maxWidth="Infinity" visible="false"></Label>
-							<TextField fx:id="additionalParamValue" alignment="CENTER" minWidth="20" visible="false"></TextField>
-							</SplitPane >
-							
+							<SplitPane>
+								<padding>
+									<Insets top="0" right="4" bottom="0" left="4" />
+								</padding>
+								<Label fx:id="additionalParamDescription"
+									alignment="CENTER" minWidth="20" maxWidth="Infinity"
+									visible="false"></Label>
+								<TextField fx:id="additionalParamValue"
+									alignment="CENTER" minWidth="20" visible="false"></TextField>
+							</SplitPane>
+
 						</HBox>
 					</center>
 					<bottom>
-
 						<HBox spacing="4" alignment="CENTER_RIGHT">
 							<padding>
 								<Insets top="4" right="4" bottom="4" left="4" />
@@ -161,9 +174,9 @@
 							</Button>
 						</HBox>
 					</bottom>
-
 				</BorderPane>
 			</bottom>
 		</BorderPane>
+
 	</children>
 </VBox>

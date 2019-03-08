@@ -1,4 +1,4 @@
-package com.github.drrename.ui.controller;
+package com.github.drrename.ui;
 
 import java.net.URL;
 import java.util.ArrayList;

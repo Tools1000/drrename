@@ -115,7 +115,7 @@
 		<dependency>
 			<groupId>com.github.kerner1000</groupId>
 			<artifactId>tools1000</artifactId>
-			<version>0.0.2</version>
+			<version>0.0.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>

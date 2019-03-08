@@ -1,41 +1,51 @@
 package com.github.drrename.strategy;
 
-import java.io.File;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.github.drrename.AbstractRenamingStrategyTest;
+public class MediaMetadataRenamingStrategyTest {
 
-public class MediaMetadataRenamingStrategyTest extends AbstractRenamingStrategyTest {
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+    }
 
-	}
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
+    }
 
-	}
+    @Before
+    public void setUp() throws Exception {
 
-	@Override
-	protected RenamingStrategy getStrategy() {
+	s = new MediaMetadataRenamingStrategy();
+    }
 
-		return new MediaMetadataRenamingStrategy();
-	}
+    @After
+    public void tearDown() throws Exception {
 
-	@Override
-	protected File getTestFile() {
+	s = null;
+	input = null;
+    }
 
-		return testFile01;
-	}
+    private MediaMetadataRenamingStrategy s;
+    private String input;
 
-	protected static final File testFile01 = new File("src/test/resources/UPPERCASE.txt");
+    @Test
+    public void test01() {
+	final String newName = s.processTag("2015:12:10 aa:36:20", "didntwork");
+	assertThat(newName, is("didntwork"));
+    }
 
-	@Test
-	public void test() {
-
-	}
+    @Test
+    public void test02() {
+	final String newName = s.processTag("2015:12:10 12:36:20", "didntwork");
+	assertThat(newName, is("20151210-123620"));
+    }
 }

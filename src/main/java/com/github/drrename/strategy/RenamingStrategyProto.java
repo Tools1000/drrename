@@ -74,7 +74,7 @@ public abstract class RenamingStrategyProto implements RenamingStrategy {
 		return getIdentifier();
 	}
 
-	protected String getNameOld(final Path file) {
+	String getNameOld(final Path file) {
 
 		return file.getFileName().toString();
 	}

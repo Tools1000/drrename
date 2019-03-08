@@ -1,9 +1,11 @@
-package com.github.drrename;
+package com.github.drrename.ui;
 
 import java.nio.file.Path;
+import java.util.Objects;
 
 import com.github.drrename.strategy.RenamingStrategy;
 
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,7 +19,7 @@ public class RenamingBean {
 
 	public RenamingBean(final Path path) {
 
-		this.oldPath = path;
+		this.oldPath = Objects.requireNonNull(path);
 		this.newPath = new SimpleStringProperty();
 		exception = new SimpleObjectProperty<>();
 	}
@@ -40,18 +42,20 @@ public class RenamingBean {
 	public void preview(final RenamingStrategy strategy) {
 
 		try {
-			newPath.set(strategy.getNameNew(oldPath));
+			final String s = strategy.getNameNew(oldPath);
+			Platform.runLater(() -> newPath.set(s));
 		} catch(final Exception e) {
-			this.exception.set(e);
+			Platform.runLater(() -> this.exception.set(e));
 		}
 	}
 
-	public void apply(final RenamingStrategy strategy) {
+	public void rename(final RenamingStrategy strategy) {
 
 		try {
-			newPath.set(strategy.rename(oldPath, null).getFileName().toString());
+			final String s = strategy.rename(oldPath, null).getFileName().toString();
+			Platform.runLater(() -> newPath.set(s));
 		} catch(final Exception e) {
-			this.exception.set(e);
+			Platform.runLater(() -> this.exception.set(e));
 		}
 	}
 }
