@@ -18,6 +18,8 @@
 
 #### UI
 
++ Clean and light interface
+![Main Window](screenshots/main-empty.png)
 + Preview  
 ![Preview](screenshots/preview.png)
 + Drag&Drop files and folders
@@ -26,6 +28,3 @@
 
 [Wiki](https://github.com/kerner1000/drrename/wiki)
 
-## Screenshots
-
-![Main Window](screenshots/main-empty.png)

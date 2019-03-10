@@ -77,7 +77,8 @@
 							<TextField fx:id="textFieldFileFilter" editable="true"
 								HBox.hgrow="ALWAYS" promptText="File filter">
 								<tooltip>
-									<Tooltip text="Enter file filter here. File names that do not contain this string will be dismissed." />
+									<Tooltip
+										text="Enter file filter here. File names that do not contain this string will be dismissed." />
 								</tooltip>
 							</TextField>
 						</children>
@@ -108,16 +109,18 @@
 								<padding>
 									<Insets top="4" right="4" bottom="4" left="4" />
 								</padding>
-								<ListView fx:id="content1" maxWidth="Infinity" stylesheets="@/css/dense-list.css"
-									maxHeight="Infinity" VBox.vgrow="ALWAYS"></ListView>
+								<ListView fx:id="content1" maxWidth="Infinity"
+									stylesheets="@/css/dense-list.css" maxHeight="Infinity"
+									VBox.vgrow="ALWAYS"></ListView>
 							</VBox>
 
 							<VBox spacing="4">
 								<padding>
 									<Insets top="4" right="4" bottom="4" left="4" />
 								</padding>
-								<ListView fx:id="content2" maxWidth="Infinity" stylesheets="@/css/dense-list.css"
-									maxHeight="Infinity" VBox.vgrow="ALWAYS"></ListView>
+								<ListView fx:id="content2" maxWidth="Infinity"
+									stylesheets="@/css/dense-list.css" maxHeight="Infinity"
+									VBox.vgrow="ALWAYS"></ListView>
 							</VBox>
 						</SplitPane>
 						<!-- </ScrollPane> -->
@@ -166,8 +169,9 @@
 							<padding>
 								<Insets top="4" right="4" bottom="4" left="4" />
 							</padding>
-							<ComboBox fx:id="comboBoxRenamingStrategy" minWidth="20" prefWidth="80"
-								HBox.hgrow="SOMETIMES" maxWidth="Infinity" maxHeight="Infinity">
+							<ComboBox fx:id="comboBoxRenamingStrategy" minWidth="20"
+								prefWidth="80" HBox.hgrow="SOMETIMES" maxWidth="Infinity"
+								maxHeight="Infinity">
 								<tooltip>
 									<Tooltip text="Renaming strategy to use." />
 								</tooltip>
@@ -176,7 +180,7 @@
 								<padding>
 									<Insets top="0" right="4" bottom="0" left="4" />
 								</padding>
-								<Label fx:id="additionalParamDescription" 
+								<Label fx:id="additionalParamDescription"
 									alignment="CENTER" minWidth="20" maxWidth="Infinity"
 									visible="false"></Label>
 								<TextField fx:id="additionalParamValue"
