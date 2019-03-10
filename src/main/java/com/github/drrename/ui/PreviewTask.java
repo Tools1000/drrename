@@ -9,23 +9,25 @@ import javafx.concurrent.Task;
 
 public class PreviewTask extends Task<Void> {
 
-	final List<RenamingBean> beans;
-	final RenamingStrategy renamingStrategy;
+    final List<RenamingBean> beans;
+    final RenamingStrategy renamingStrategy;
 
-	public PreviewTask(final List<RenamingBean> beans, final RenamingStrategy renamingStrategy) {
+    public PreviewTask(final List<RenamingBean> beans, final RenamingStrategy renamingStrategy) {
 
-		this.beans = Objects.requireNonNull(beans);
-		this.renamingStrategy = Objects.requireNonNull(renamingStrategy);
+	this.beans = Objects.requireNonNull(beans);
+	this.renamingStrategy = Objects.requireNonNull(renamingStrategy);
+    }
+
+    @Override
+    protected Void call() throws Exception {
+
+	for (final RenamingBean p : beans) {
+	    if (Thread.currentThread().isInterrupted())
+		throw new InterruptedException("Cancelled");
+	    if (!p.isFiltered()) {
+		p.preview(renamingStrategy);
+	    }
 	}
-
-	@Override
-	protected Void call() throws Exception {
-
-		for(final RenamingBean p : beans) {
-			if(Thread.currentThread().isInterrupted())
-				throw new InterruptedException("Cancelled");
-			p.preview(renamingStrategy);
-		}
-		return null;
-	}
+	return null;
+    }
 }

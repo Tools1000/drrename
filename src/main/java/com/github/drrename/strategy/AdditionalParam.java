@@ -5,33 +5,41 @@ import javafx.beans.property.StringProperty;
 
 public class AdditionalParam {
 
-	private final String description;
-	private final StringProperty value;
+    private final String descriptionLong;
+    private final String descriptionShort;
+    private final StringProperty value;
 
-	public AdditionalParam(final String description) {
+    public AdditionalParam(final String descriptionShort, final String descriptionLong) {
 
-		super();
-		this.description = description;
-		this.value = new SimpleStringProperty();
-	}
+	super();
+	this.descriptionLong = descriptionLong;
+	this.descriptionShort = descriptionShort;
+	this.value = new SimpleStringProperty();
+    }
 
-	public String getDescription() {
+    // Getter / Setter //
 
-		return description;
-	}
+    public StringProperty valueProperty() {
 
-	public StringProperty valueProperty() {
+	return this.value;
+    }
 
-		return this.value;
-	}
+    public String getValue() {
 
-	public String getValue() {
+	return this.valueProperty().get();
+    }
 
-		return this.valueProperty().get();
-	}
+    public void setValue(final String value) {
 
-	public void setValue(final String value) {
+	this.valueProperty().set(value);
+    }
 
-		this.valueProperty().set(value);
-	}
+    public String getDescriptionLong() {
+	return descriptionLong;
+    }
+
+    public String getDescriptionShort() {
+	return descriptionShort;
+    }
+
 }

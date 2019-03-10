@@ -9,22 +9,24 @@ import javafx.concurrent.Task;
 
 public class RenamingTask extends Task<Void> {
 
-	private final List<RenamingBean> elements;
-	private final RenamingStrategy strategy;
+    private final List<RenamingBean> elements;
+    private final RenamingStrategy strategy;
 
-	public RenamingTask(final List<RenamingBean> elements, final RenamingStrategy strategy) {
+    public RenamingTask(final List<RenamingBean> elements, final RenamingStrategy strategy) {
 
-		super();
-		this.elements = elements;
-		this.strategy = strategy;
+	super();
+	this.elements = elements;
+	this.strategy = strategy;
+    }
+
+    @Override
+    protected Void call() throws Exception {
+
+	for (final RenamingBean b : elements) {
+	    if (!b.isFiltered() && b.isChanging()) {
+		b.rename(strategy);
+	    }
 	}
-
-	@Override
-	protected Void call() throws Exception {
-
-		for(final RenamingBean b : elements) {
-			b.rename(strategy);
-		}
-		return null;
-	}
+	return null;
+    }
 }

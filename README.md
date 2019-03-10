@@ -8,10 +8,19 @@
 
 ### Features
 
-+ Rename image files by metadata-date.
-+ Simple replace-renaming.
-+ Regex replace-renaming.
-+ To-lowercase-renaming.
+#### Strategies
+
++ Rename image files by metadata-date
++ Simple replace-renaming
++ Regex replace-renaming
++ To-lowercase-renaming
++ Extension by MIME-type
+
+#### UI
+
++ Preview  
+![Preview](screenshots/preview.png)
++ Drag&Drop files and folders
 
 ## Documentation
 
@@ -19,6 +28,4 @@
 
 ## Screenshots
 
-![Main Window](screenshots/main.png)
-
-![Renaming](screenshots/metadata-rename.png)
+![Main Window](screenshots/main-empty.png)

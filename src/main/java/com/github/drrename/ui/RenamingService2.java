@@ -1,6 +1,5 @@
 package com.github.drrename.ui;
 
-import java.util.List;
 import java.util.Objects;
 
 import com.github.drrename.RenamingTask;
@@ -9,16 +8,15 @@ import javafx.concurrent.Task;
 
 public class RenamingService2 extends StrategyService<Void> {
 
-	private List<RenamingBean> events;
+    public RenamingService2() {
 
-	public RenamingService2() {
+	super();
+    }
 
-		super();
-	}
+    @Override
+    protected Task<Void> createTask() {
 
-	@Override
-	protected Task<Void> createTask() {
-
-		return new RenamingTask(Objects.requireNonNull(events), Objects.requireNonNull(getRenamingStrategy()));
-	}
+	return new RenamingTask(Objects.requireNonNull(getFiles(), "Files must not be null"),
+		Objects.requireNonNull(getRenamingStrategy(), "Strategy must not be null"));
+    }
 }

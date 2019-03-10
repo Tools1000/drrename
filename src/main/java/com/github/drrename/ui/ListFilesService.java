@@ -1,5 +1,6 @@
 package com.github.drrename.ui;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
@@ -9,27 +10,55 @@ import javafx.concurrent.Task;
 
 public class ListFilesService extends Service<List<RenamingBean>> {
 
-	private Path path;
+    private Path path;
 
-	@Override
-	protected Task<List<RenamingBean>> createTask() {
+    private List<File> files;
 
-		return new ListFilesTask(path);
-	}
+    private String fileNameFilterRegex;
 
-	public Path getPath() {
+    @Override
+    protected Task<List<RenamingBean>> createTask() {
 
-		return path;
-	}
+	if (files != null)
+	    return new ListFilesTask(files, fileNameFilterRegex);
+	else
+	    return new ListFilesTask(path, fileNameFilterRegex);
+    }
 
-	public void setPath(final Path path) {
+    @Override
+    public String toString() {
 
-		this.path = Objects.requireNonNull(path);
-	}
+	return getClass().getSimpleName() + " [" + path + "]";
+    }
 
-	@Override
-	public String toString() {
+    // Getter / Setter //
 
-		return getClass().getSimpleName() + " [" + path + "]";
-	}
+    public Path getPath() {
+
+	return path;
+    }
+
+    public void setPath(final Path path) {
+
+	this.path = Objects.requireNonNull(path);
+	this.files = null;
+    }
+
+    public List<File> getFiles() {
+	return files;
+    }
+
+    public void setFiles(final List<File> files) {
+	this.files = files;
+	this.path = null;
+    }
+
+    public String getFileNameFilterRegex() {
+	return fileNameFilterRegex;
+    }
+
+    public void setFileNameFilterRegex(final String fileNameFilterRegex) {
+	this.fileNameFilterRegex = fileNameFilterRegex;
+    }
+
 }

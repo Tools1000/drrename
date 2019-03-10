@@ -45,6 +45,12 @@ public class MediaMetadataRenamingStrategyTest {
 
     @Test
     public void test02() {
+	final String newName = s.processTag("2015:12:10 aa:36:20", "didntwork");
+	assertThat(newName, is("didntwork"));
+    }
+
+    @Test
+    public void test03() {
 	final String newName = s.processTag("2015:12:10 12:36:20", "didntwork");
 	assertThat(newName, is("20151210-123620"));
     }

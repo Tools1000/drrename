@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +40,7 @@ public class MediaMetadataRenamingStrategy extends RenamingStrategyProto {
 	    DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss"),
 	    DateTimeFormatter.ofPattern("EE MMM dd HH:mm:ss XXX yyyy"),
 	    DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss XXX yyyy"),
+	    DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy"),
 	    DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ"));
 
     private DateTimeFormatter dateFormatterWrite;
@@ -49,6 +51,20 @@ public class MediaMetadataRenamingStrategy extends RenamingStrategyProto {
 
 	dateFormatterWrite = DEFAULT_DATE_FORMATTER_WRITE;
 	dateFormattersRead = DEFAULT_DATE_FORMATTERS_READ;
+	setAdditionalParam(buildAdditionalParam());
+    }
+
+    @Override
+    public String getIdentifier() {
+
+	return "Date from Metadata";
+    }
+
+    private AdditionalParam buildAdditionalParam() {
+	final AdditionalParam result = new AdditionalParam("Fallback to\nfile mod. date",
+		"When proper date could not be parsed from metadata,\nrename by last modification date.\n Will be applied, if value is 'true'.");
+	result.setValue("false");
+	return result;
     }
 
     @Override
@@ -62,18 +78,23 @@ public class MediaMetadataRenamingStrategy extends RenamingStrategyProto {
 		// fallback tag that is used to parse the date from, if 'primary' tag cannot be
 		// found
 		Tag fallbackTag = null;
+
 		for (final Tag tag : directory.getTags()) {
+		    // System.err.println(getAdditionalParam().get().getValue());
 		    if (tag.toString().toLowerCase().contains("creation"))
-			return processTag(tag, file.getFileName().toString());
-		    else if (tag.toString().toLowerCase().contains("date")) {
+			return getNewFileName(tag, file);
+		    else if (getAdditionalParam().isPresent()
+			    && Boolean.parseBoolean(getAdditionalParam().get().getValue())
+			    && tag.toString().toLowerCase().contains("date")) {
 			fallbackTag = tag;
 		    }
 		}
-		if (fallbackTag != null)
-		    // if (logger.isDebugEnabled()) {
-		    // logger.debug("No suitable tag found, using fallback tag " + fallbackTag);
-		    // }
-		    return processTag(fallbackTag, file.getFileName().toString());
+		if (fallbackTag != null) {
+		    if (logger.isDebugEnabled()) {
+			logger.debug("No suitable tag found, using fallback tag " + fallbackTag);
+		    }
+		    return getNewFileName(fallbackTag, file);
+		}
 	    }
 	} catch (final ImageProcessingException e) {
 	    if (logger.isDebugEnabled()) {
@@ -82,10 +103,19 @@ public class MediaMetadataRenamingStrategy extends RenamingStrategyProto {
 	} catch (final Exception e) {
 	    throw new IOException(e);
 	}
-	if (logger.isDebugEnabled()) {
-	    logger.debug(file.getFileName() + ": No suitable tag found");
-	}
+	// if (logger.isDebugEnabled()) {
+	// logger.debug(file.getFileName() + ": No suitable tag found");
+	// }
 	return file.getFileName().toString();
+    }
+
+    private String getNewFileName(final Tag tag, final Path file) {
+	final String fileExtension = FilenameUtils.getExtension(file.toFile().getName());
+	final String newFileName = processTag(tag, file.getFileName().toString());
+	if (file.getFileName().toString().equals(newFileName))
+	    return file.getFileName().toString();
+	return (fileExtension != null) && (fileExtension.length() > 0) ? newFileName + "." + fileExtension
+		: newFileName;
     }
 
     String processTag(final Tag tag, final String fileName) {
@@ -160,9 +190,4 @@ public class MediaMetadataRenamingStrategy extends RenamingStrategyProto {
 	this.dateFormatterWrite = dateFormatterWrite;
     }
 
-    @Override
-    public String getIdentifier() {
-
-	return "Date from Metadata";
-    }
 }

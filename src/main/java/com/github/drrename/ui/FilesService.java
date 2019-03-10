@@ -8,26 +8,26 @@ import javafx.concurrent.Service;
 
 public abstract class FilesService<V> extends Service<V> {
 
-	private List<RenamingBean> files;
+    private List<RenamingBean> files;
 
-	public FilesService() {
+    public FilesService() {
 
-		this.files = new ArrayList<>();
-	}
+	this.files = new ArrayList<>();
+    }
 
-	public List<RenamingBean> getFiles() {
+    public List<RenamingBean> getFiles() {
 
-		return files;
-	}
+	return files;
+    }
 
-	public void setFiles(final List<RenamingBean> events) {
+    public void setFiles(final List<RenamingBean> events) {
 
-		this.files = Objects.requireNonNull(events);
-	}
+	this.files = Objects.requireNonNull(events);
+    }
 
-	@Override
-	public String toString() {
+    @Override
+    public String toString() {
 
-		return getClass().getSimpleName() + " [" + files.size() + "]";
-	}
+	return getClass().getSimpleName() + " [" + files.size() + "]";
+    }
 }

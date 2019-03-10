@@ -51,20 +51,44 @@
 
 		<BorderPane VBox.vgrow="ALWAYS">
 			<top>
-				<HBox>
-					<padding>
-						<Insets top="4" right="4" bottom="4" left="4" />
-					</padding>
-					<children>
-						<TextField fx:id="textFieldStartDirectory"
-							editable="true" HBox.hgrow="ALWAYS"
-							promptText="Enter/ Copy+Paste start directory here">
-							<tooltip>
-								<Tooltip text="Enter/ Copy+Paste start directory here." />
-							</tooltip>
-						</TextField>
-					</children>
-				</HBox>
+				<VBox>
+					<HBox>
+						<padding>
+							<Insets top="4" right="4" bottom="4" left="4" />
+						</padding>
+						<children>
+							<TextField fx:id="textFieldStartDirectory"
+								editable="true" HBox.hgrow="ALWAYS"
+								promptText="Enter/ Copy+Paste start directory here">
+								<tooltip>
+									<Tooltip text="Enter/ Copy+Paste start directory here." />
+								</tooltip>
+							</TextField>
+						</children>
+					</HBox>
+
+
+
+					<HBox>
+						<padding>
+							<Insets top="4" right="4" bottom="4" left="4" />
+						</padding>
+						<children>
+							<TextField fx:id="textFieldFileFilter" editable="true"
+								HBox.hgrow="ALWAYS" promptText="File filter">
+								<tooltip>
+									<Tooltip text="Enter file filter here. File names that do not contain this string will be dismissed." />
+								</tooltip>
+							</TextField>
+						</children>
+					</HBox>
+
+
+
+
+
+				</VBox>
+
 			</top>
 			<center>
 
@@ -84,14 +108,16 @@
 								<padding>
 									<Insets top="4" right="4" bottom="4" left="4" />
 								</padding>
-								<ListView fx:id="content1" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"></ListView>
+								<ListView fx:id="content1" maxWidth="Infinity" stylesheets="@/css/dense-list.css"
+									maxHeight="Infinity" VBox.vgrow="ALWAYS"></ListView>
 							</VBox>
 
 							<VBox spacing="4">
 								<padding>
 									<Insets top="4" right="4" bottom="4" left="4" />
 								</padding>
-								<ListView fx:id="content2" maxWidth="Infinity" maxHeight="Infinity" VBox.vgrow="ALWAYS"></ListView>
+								<ListView fx:id="content2" maxWidth="Infinity" stylesheets="@/css/dense-list.css"
+									maxHeight="Infinity" VBox.vgrow="ALWAYS"></ListView>
 							</VBox>
 						</SplitPane>
 						<!-- </ScrollPane> -->
@@ -140,8 +166,8 @@
 							<padding>
 								<Insets top="4" right="4" bottom="4" left="4" />
 							</padding>
-							<ComboBox fx:id="comboBoxRenamingStrategy" minWidth="20"
-								HBox.hgrow="ALWAYS" maxWidth="Infinity">
+							<ComboBox fx:id="comboBoxRenamingStrategy" minWidth="20" prefWidth="80"
+								HBox.hgrow="SOMETIMES" maxWidth="Infinity" maxHeight="Infinity">
 								<tooltip>
 									<Tooltip text="Renaming strategy to use." />
 								</tooltip>
@@ -150,7 +176,7 @@
 								<padding>
 									<Insets top="0" right="4" bottom="0" left="4" />
 								</padding>
-								<Label fx:id="additionalParamDescription"
+								<Label fx:id="additionalParamDescription" 
 									alignment="CENTER" minWidth="20" maxWidth="Infinity"
 									visible="false"></Label>
 								<TextField fx:id="additionalParamValue"
