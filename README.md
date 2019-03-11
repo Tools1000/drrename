@@ -19,9 +19,13 @@
 #### UI
 
 + Clean and light interface
+
 ![Main Window](screenshots/main-empty.png)
+
 + Preview  
+
 ![Preview](screenshots/preview.png)
+
 + Drag&Drop files and folders
 
 ## Running it
