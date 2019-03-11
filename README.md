@@ -24,6 +24,10 @@
 ![Preview](screenshots/preview.png)
 + Drag&Drop files and folders
 
+## Running it
+Just download the `jar` file [here](https://github.com/kerner1000/drrename/releases/latest) and start it by double-clicking.
+Alternatievely, call `java -jar DrRename-x.x.x.jar` on a terminal.
+
 ## Documentation
 
 [Wiki](https://github.com/kerner1000/drrename/wiki)
