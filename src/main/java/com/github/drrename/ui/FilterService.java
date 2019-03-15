@@ -1,13 +1,17 @@
 package com.github.drrename.ui;
 
+import java.util.concurrent.ExecutorService;
+
 import javafx.concurrent.Task;
 
 public class FilterService extends FilesService<Void> {
 
     private String fileNameFilterRegex;
 
-    public FilterService() {
-	setExecutor(PreviewService.LOW_PRIORITY_THREAD_POOL_EXECUTOR);
+    public FilterService(final ExecutorService executor) {
+	if (executor != null) {
+	    setExecutor(executor);
+	}
     }
 
     @Override

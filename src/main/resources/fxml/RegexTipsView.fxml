@@ -17,6 +17,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Separator?>
 
 <VBox styleClass="root" xmlns:fx="http://javafx.com/fxml/1"
 	xmlns="http://javafx.com/javafx/8">
@@ -39,6 +40,13 @@
 					text="Matches the filename and the extension in a separate group. Access the file name only with '$1', the file extension with '$2'."></Label>
 				<TextField editable="false" GridPane.rowIndex="0"
 					GridPane.columnIndex="1" text="(.+?)(\.[^.]*$|$)"></TextField>
+					<Separator orientation="HORIZONTAL" GridPane.rowIndex="1" GridPane.columnSpan="2"><padding>
+				<Insets top="4" right="4" bottom="4" left="4" />
+			</padding></Separator>
+					<Label wrapText="true"  GridPane.rowIndex="2" GridPane.columnIndex="0"
+					text="Matches extactly four digits, such as a number representing a year. Replace 1999 by (1999) with'($1)'"></Label>
+				<TextField editable="false" GridPane.rowIndex="2"
+					GridPane.columnIndex="1" text="(\d{4})"></TextField>
 			</children>
 		</GridPane>
 

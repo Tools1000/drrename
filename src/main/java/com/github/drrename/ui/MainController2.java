@@ -14,6 +14,7 @@ import java.util.concurrent.CountDownLatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.drrename.DrRenameApplication2;
 import com.github.drrename.event.AvailableRenamingStrategyEvent;
 import com.github.drrename.strategy.RenamingStrategy;
 import com.github.events1000.api.Event;
@@ -143,7 +144,7 @@ public class MainController2 implements Initializable {
     public MainController2() {
 
 	renamingService = new RenamingService2();
-	previewService = new PreviewService();
+	previewService = new PreviewService(DrRenameApplication2.LOW_PRIORITY_THREAD_POOL_EXECUTOR);
 	listFilesService = new ListFilesService();
 	workingProperty = new SimpleBooleanProperty();
 	// filterService = new FilterService();
@@ -339,6 +340,9 @@ public class MainController2 implements Initializable {
     private void initListFilesService() {
 
 	listFilesService.setFileNameFilterRegex(textFieldFileFilter.getText().trim());
+	listFilesService.setOnFailed(e -> {
+	    listFilesService.getException().printStackTrace();
+	});
 	listFilesService.setOnSucceeded(buildNewListFilesSucceededCallback());
     }
 
@@ -346,6 +350,7 @@ public class MainController2 implements Initializable {
 
 	return e -> {
 	    entries = listFilesService.getValue();
+	    // System.err.println(entries);
 	    if (entries != null) {
 		for (final RenamingBean b : entries) {
 		    addToContent(b);
@@ -741,10 +746,18 @@ public class MainController2 implements Initializable {
 	    if (service instanceof FilterService) {
 		((FilterService) service).setFileNameFilterRegex(textFieldFileFilter.getText().trim());
 	    }
+	    service.setOnRunning(e -> {
+		if (logger.isDebugEnabled()) {
+		    logger.debug("Service running " + service);
+		}
+	    });
+	    service.setOnFailed(e -> {
+		if (logger.isDebugEnabled()) {
+		    logger.debug("Service failed " + service + ": " + service.getException(), service.getException());
+		}
+	    });
 	    service.start();
-	    if (logger.isDebugEnabled()) {
-		logger.debug("Service started " + service);
-	    }
+
 	} catch (final IllegalStateException e) {
 	    if (logger.isDebugEnabled()) {
 		logger.debug("Cannot start service " + e.toString() + ", " + service + ", " + service.getState());
@@ -762,4 +775,5 @@ public class MainController2 implements Initializable {
 	    startService(renamingService);
 	}
     }
+
 }

@@ -32,8 +32,6 @@ public class RenamingBean {
 	this.oldPath = new SimpleObjectProperty<>(Objects.requireNonNull(path));
 	if (!Files.isReadable(path))
 	    throw new IllegalArgumentException("Cannot read " + path);
-	if (Files.isDirectory(path))
-	    throw new IllegalArgumentException(path + " is a directory");
 	this.newPath = new SimpleStringProperty();
 	exception = new SimpleObjectProperty<>();
 	this.filtered = new SimpleBooleanProperty();

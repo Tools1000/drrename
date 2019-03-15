@@ -38,20 +38,48 @@ public class MediaMetadataRenamingStrategyTest {
     private String input;
 
     @Test
-    public void test01() {
+    public void testProcessTag01() {
 	final String newName = s.processTag("2015:12:10 aa:36:20", "didntwork");
 	assertThat(newName, is("didntwork"));
     }
 
     @Test
-    public void test02() {
+    public void testProcessTag02() {
 	final String newName = s.processTag("2015:12:10 aa:36:20", "didntwork");
 	assertThat(newName, is("didntwork"));
     }
 
     @Test
-    public void test03() {
+    public void testProcessTag03() {
 	final String newName = s.processTag("2015:12:10 12:36:20", "didntwork");
 	assertThat(newName, is("20151210-123620"));
+    }
+
+    @Test
+    public void testIdentifier01() {
+
+	assertThat(s.getIdentifier(), is("Date from Metadata"));
+    }
+
+    @Test
+    public void testIsReplacing01() {
+
+	assertThat(s.isReplacing(), is(false));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testSetParserRead01() throws Exception {
+
+	s.setDateFormattersRead(null);
+	s.processTag("someTag", "dummyFile");
+
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testSetParserWrite01() throws Exception {
+
+	s.setDateFormatterWrite(null);
+	s.processTag("someTag", "dummyFile");
+
     }
 }

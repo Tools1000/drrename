@@ -2,6 +2,8 @@ package com.github.drrename;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +16,9 @@ import com.github.drrename.strategy.RegexReplaceRenamingStrategy;
 import com.github.drrename.strategy.RenamingStrategy;
 import com.github.drrename.strategy.SimpleReplaceRenamingStrategy;
 import com.github.drrename.strategy.ToLowerCaseRenamingStrategy;
+import com.github.drrename.ui.MainController2;
 import com.github.events1000.api.Events;
+import com.github.ktools1000.AnotherThreadFactory;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -31,6 +35,9 @@ public class DrRenameApplication2 extends Application {
 
     private final static Logger logger = LoggerFactory.getLogger(DrRenameApplication2.class);
 
+    public static ExecutorService LOW_PRIORITY_THREAD_POOL_EXECUTOR = Executors.newFixedThreadPool(1,
+	    new AnotherThreadFactory(Thread.MIN_PRIORITY));
+
     public static void main(final String[] args) {
 
 	launch(args);
@@ -43,6 +50,8 @@ public class DrRenameApplication2 extends Application {
 	    logger.info("Application version " + getClass().getPackage().getImplementationVersion());
 	}
 	final FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainView2.fxml"));
+	final MainController2 controller = loader.getController();
+
 	final Parent root = loader.load();
 	final Scene scene = new Scene(root, 600, 600);
 	String s = getClass().getPackage().getImplementationVersion();
@@ -53,6 +62,12 @@ public class DrRenameApplication2 extends Application {
 	stage.setScene(scene);
 	stage.show();
 	fireInitEvents();
+    }
+
+    @Override
+    public void stop() throws Exception {
+	LOW_PRIORITY_THREAD_POOL_EXECUTOR.shutdown();
+	super.stop();
     }
 
     private void fireInitEvents() {

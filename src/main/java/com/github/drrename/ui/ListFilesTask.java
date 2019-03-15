@@ -84,7 +84,13 @@ public class ListFilesTask extends Task<List<RenamingBean>> {
 		    }
 		    final Path next = it.next();
 		    if (FilterTask.matches(next.getFileName().toString(), fileNameFilterRegex)) {
-			entries.add(new RenamingBean(next));
+			try {
+			    entries.add(new RenamingBean(next));
+			} catch (final Exception e) {
+			    if (logger.isErrorEnabled()) {
+				logger.error(e.getLocalizedMessage(), e);
+			    }
+			}
 		    }
 		}
 	    }

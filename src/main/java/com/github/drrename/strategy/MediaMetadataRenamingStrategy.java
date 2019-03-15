@@ -80,9 +80,12 @@ public class MediaMetadataRenamingStrategy extends RenamingStrategyProto {
 		Tag fallbackTag = null;
 
 		for (final Tag tag : directory.getTags()) {
-		    // System.err.println(getAdditionalParam().get().getValue());
+
+		    // look for a creation date
 		    if (tag.toString().toLowerCase().contains("creation"))
-			return getNewFileName(tag, file);
+			return getNewFileName(tag.getDescription(), file);
+
+		    // if applicable, check for the fallback tag
 		    else if (getAdditionalParam().isPresent()
 			    && Boolean.parseBoolean(getAdditionalParam().get().getValue())
 			    && tag.toString().toLowerCase().contains("date")) {
@@ -93,7 +96,7 @@ public class MediaMetadataRenamingStrategy extends RenamingStrategyProto {
 		    if (logger.isDebugEnabled()) {
 			logger.debug("No suitable tag found, using fallback tag " + fallbackTag);
 		    }
-		    return getNewFileName(fallbackTag, file);
+		    return getNewFileName(fallbackTag.getDescription(), file);
 		}
 	    }
 	} catch (final ImageProcessingException e) {
@@ -103,48 +106,50 @@ public class MediaMetadataRenamingStrategy extends RenamingStrategyProto {
 	} catch (final Exception e) {
 	    throw new IOException(e);
 	}
-	// if (logger.isDebugEnabled()) {
-	// logger.debug(file.getFileName() + ": No suitable tag found");
-	// }
 	return file.getFileName().toString();
     }
 
-    private String getNewFileName(final Tag tag, final Path file) {
-	final String fileExtension = FilenameUtils.getExtension(file.toFile().getName());
-	final String newFileName = processTag(tag, file.getFileName().toString());
-	if (file.getFileName().toString().equals(newFileName))
-	    return file.getFileName().toString();
-	return (fileExtension != null) && (fileExtension.length() > 0) ? newFileName + "." + fileExtension
-		: newFileName;
-    }
+    private String getNewFileName(final String tagDescription, final Path file) {
 
-    String processTag(final Tag tag, final String fileName) {
-
-	return processTag(tag.getDescription(), fileName);
+	final String fileName = file.getFileName().toString();
+	final String newFileName = processTag(tagDescription, fileName);
+	if (fileName.equals(newFileName))
+	    return fileName;
+	return newFileName;
     }
 
     /**
      *
-     * @param tag
+     *
+     * @param tagDescription
      *            the input string from which a date is parsed
      * @param fileName
      *            the file name that is returned if parsing a date fails
-     * @return the extracted, date based file name or {@code fileName} if parsing
+     * @return the extracted, date-based file name or {@code fileName} if parsing
      *         fails
      */
-    String processTag(final String tag, final String fileName) {
+    String processTag(final String tagDescription, final String fileName) {
 
-	final String newDateString = processDateString(getDateFormattersRead(), getDateFormatterWrite(), tag);
+	final String fileExtension = FilenameUtils.getExtension(fileName);
+
+	final String newDateString = processDateString(getDateFormattersRead(), getDateFormatterWrite(),
+		tagDescription);
 	if (newDateString != null)
-	    return newDateString;
+	    // the file name has changed, return the new file name and re-append the file
+	    // extension
+	    return (fileExtension != null) && (fileExtension.length() > 0) ? newDateString + "." + fileExtension
+		    : newDateString;
 	if (logger.isDebugEnabled()) {
-	    logger.debug(fileName + ": Failed to parse date from " + tag);
+	    logger.debug(fileName + ": Failed to parse date from " + tagDescription);
 	}
 	return fileName;
     }
 
     static String processDateString(final Collection<DateTimeFormatter> dateFormattersRead,
 	    final DateTimeFormatter dateFormatWrite, final String dateString) {
+
+	if ((dateFormattersRead == null) || dateFormattersRead.isEmpty())
+	    throw new IllegalStateException("No read-parser available");
 
 	for (final DateTimeFormatter dateFormatterRead : dateFormattersRead) {
 	    try {
@@ -159,6 +164,10 @@ public class MediaMetadataRenamingStrategy extends RenamingStrategyProto {
     static String processDateString(final DateTimeFormatter dateFormatRead, final DateTimeFormatter dateFormatWrite,
 	    final String dateString) {
 
+	if (dateFormatRead == null)
+	    throw new IllegalStateException("No read-parser available");
+	if (dateFormatWrite == null)
+	    throw new IllegalStateException("No write-parser available");
 	final TemporalAccessor dt = dateFormatRead.parse(dateString);
 	final String result = dateFormatWrite.format(dt);
 	return result;

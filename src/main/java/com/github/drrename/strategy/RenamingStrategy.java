@@ -13,51 +13,60 @@ import java.util.Optional;
  */
 public interface RenamingStrategy {
 
-	/**
-	 * Returns a more detailed help text on what this strategy is doing and if and how it can be configured.
-	 *
-	 * @return a more detailed help text on what this strategy is doing
-	 */
-	String getHelpText();
+    /**
+     * Returns a more detailed help text on what this strategy is doing and if and
+     * how it can be configured.
+     *
+     * @return a more detailed help text on what this strategy is doing
+     */
+    String getHelpText();
 
-	/**
-	 * Returns a human-readable identifier for this strategy.
-	 *
-	 * @return a human-readable identifier for this strategy
-	 */
-	String getIdentifier();
+    /**
+     * Returns a human-readable identifier for this strategy.
+     *
+     * @return a human-readable identifier for this strategy
+     */
+    String getIdentifier();
 
-	/**
-	 * Returns the new file name to which given file would be renamed if {@link #rename(Path, BasicFileAttributes)} would be called.
-	 * Note: the file name will remain unchanged until {@link #rename(Path, BasicFileAttributes)} is actually called.
-	 *
-	 * @param file
-	 *            the file that should be renamed
-	 * @return the new file name to which given file would be renamed if {@link #rename(Path, BasicFileAttributes)} would be called
-	 * @throws IOException
-	 *             if some IO error occurs
-	 * @throws InterruptedException
-	 *             if this strategy is interrupted
-	 */
-	String getNameNew(Path file) throws IOException, InterruptedException;
+    /**
+     * Returns the new file name to which given file would be renamed if
+     * {@link #rename(Path, BasicFileAttributes)} would be called. Note: the file
+     * name will remain unchanged until {@link #rename(Path, BasicFileAttributes)}
+     * is actually called.
+     *
+     * @param file
+     *            the file that should be renamed
+     * @return the new file name to which given file would be renamed if
+     *         {@link #rename(Path, BasicFileAttributes)} would be called
+     * @throws IOException
+     *             if some IO error occurs
+     * @throws InterruptedException
+     *             if this strategy is interrupted
+     */
+    String getNameNew(Path file) throws IOException, InterruptedException;
 
-	/**
-	 * Returns {@code true}, if this strategy is replacing certain characters of a file name with some other characters.
-	 *
-	 * @see #setReplacementStringFrom(String)
-	 * @see #setReplacementStringTo(String)
-	 *
-	 * @return {@code true}, if this strategy is replacing; {@code false} otherwise
-	 */
-	boolean isReplacing();
+    /**
+     * Returns {@code true}, if this strategy is replacing certain characters of a
+     * file name with some other characters.
+     * </p>
+     * More formally, replacing is {@code true}, if
+     * {@link #setReplacementStringFrom(String)} and
+     * {@link #setReplacementStringTo(String)} need to be set.
+     *
+     * @see #setReplacementStringFrom(String)
+     * @see #setReplacementStringTo(String)
+     *
+     * @return {@code true}, if this strategy is replacing; {@code false} otherwise
+     */
+    boolean isReplacing();
 
-	boolean hasAdditionalParam();
+    boolean hasAdditionalParam();
 
-	Optional<AdditionalParam> getAdditionalParam();
+    Optional<AdditionalParam> getAdditionalParam();
 
-	Path rename(Path file, BasicFileAttributes attrs) throws IOException, InterruptedException;
+    Path rename(Path file, BasicFileAttributes attrs) throws IOException, InterruptedException;
 
-	void setReplacementStringFrom(String replacement);
+    void setReplacementStringFrom(String replacement);
 
-	void setReplacementStringTo(String replacement);
+    void setReplacementStringTo(String replacement);
 }
