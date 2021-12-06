@@ -87,7 +87,6 @@
 				<version>3.0.1</version>
 				<configuration>
 					<detectJavaApiLink>false</detectJavaApiLink>
-					<javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
 					<doclint>none</doclint>
 				</configuration>
 				<executions>
