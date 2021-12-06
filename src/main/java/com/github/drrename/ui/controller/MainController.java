@@ -9,11 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.drrename.RenamingService;
-import com.github.drrename.model.ImageDateRenamingStrategy;
-import com.github.drrename.model.RegexReplaceRenamingStrategy;
-import com.github.drrename.model.RenamingStrategy;
-import com.github.drrename.model.SimpleReplaceRenamingStrategy;
-import com.github.drrename.model.ToLowerCaseRenamingStrategy;
+import com.github.drrename.event.AvailableRenamingStrategyEvent;
+import com.github.drrename.strategy.RenamingStrategy;
+import com.github.events1000.api.Event;
+import com.github.events1000.api.Events;
+import com.github.events1000.listener.api.AbstractSynchronousEventListener;
+import com.github.events1000.listener.api.SynchronousEventListener;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -31,113 +32,124 @@ import javafx.scene.layout.VBox;
 
 public class MainController implements Initializable {
 
-    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+	private final RenamingService sr = new RenamingService();
+	@FXML
+	private CheckBox checkBox;
+	@FXML
+	private ComboBox<RenamingStrategy> comboBoxRenamingStrategy;
+	@FXML
+	private TextField textFieldReplacementStringFrom;
+	@FXML
+	private TextField textFieldReplacementStringTo;
+	@FXML
+	private TextField textFieldStartDirectory;
+	@FXML
+	private ProgressBar progressBar;
+	@FXML
+	private Button buttonGo;
+	@FXML
+	private VBox tilePane;
+	private boolean working;
+	private final SynchronousEventListener stategyListener = new AbstractSynchronousEventListener(AvailableRenamingStrategyEvent.EVENT_TOPIC) {
 
-    static List<RenamingStrategy> getRenamingStrategies() {
-	final List<RenamingStrategy> result = new ArrayList<>();
-	result.add(new SimpleReplaceRenamingStrategy());
-	result.add(new RegexReplaceRenamingStrategy());
-	result.add(new ToLowerCaseRenamingStrategy());
-	result.add(new ImageDateRenamingStrategy());
+		@Override
+		public void handle(final Event e) {
 
-	return result;
-    }
+			if(logger.isDebugEnabled())
+				logger.debug("Got event " + e);
+			if(e instanceof AvailableRenamingStrategyEvent) {
+				comboBoxRenamingStrategy.getItems().add(((AvailableRenamingStrategyEvent)e).getData());
+				comboBoxRenamingStrategy.getSelectionModel().selectFirst();
+			}
+		}
+	};
 
-    private final RenamingService sr = new RenamingService();
+	public MainController() {
 
-    @FXML
-    private CheckBox checkBox;
-    @FXML
-    private ComboBox<RenamingStrategy> comboBoxRenamingStrategy;
-
-    @FXML
-    private TextField textFieldReplacementStringFrom;
-
-    @FXML
-    private TextField textFieldReplacementStringTo;
-
-    @FXML
-    private TextField textFieldStartDirectory;
-
-    @FXML
-    private ProgressBar progressBar;
-
-    @FXML
-    private Button buttonGo;
-
-    @FXML
-    private VBox tilePane;
-
-    private boolean working;
-
-    @FXML
-    private void handleButtonActionGo(final ActionEvent event) {
-
-	if (working) {
-	    buttonGo.setText("Cancelling");
-	    buttonGo.setDisable(true);
-	    sr.cancel();
-	} else {
-	    sr.reset();
-	    sr.start();
+		init();
 	}
-    }
 
-    @Override
-    public void initialize(final URL location, final ResourceBundle resources) {
-	comboBoxRenamingStrategy.setItems(FXCollections.observableArrayList(getRenamingStrategies()));
-	comboBoxRenamingStrategy.getSelectionModel().selectFirst();
-	comboBoxRenamingStrategy.getSelectionModel().selectedItemProperty()
-		.addListener(new ChangeListener<RenamingStrategy>() {
+	private void init() {
 
-		    @Override
-		    public void changed(final ObservableValue<? extends RenamingStrategy> observable,
-			    final RenamingStrategy oldValue, final RenamingStrategy newValue) {
-			textFieldReplacementStringFrom.setDisable(!newValue.isReplacing());
-			textFieldReplacementStringTo.setDisable(!newValue.isReplacing());
-		    }
+		Events.getInstance().registerListener(stategyListener);
+	}
+
+	@FXML
+	private void handleButtonActionGo(final ActionEvent event) {
+
+		if(working) {
+			buttonGo.setText("Cancelling");
+			buttonGo.setDisable(true);
+			sr.cancel();
+		} else {
+			sr.reset();
+			sr.start();
+		}
+	}
+
+	@Override
+	public void initialize(final URL location, final ResourceBundle resources) {
+
+		comboBoxRenamingStrategy.setItems(FXCollections.observableArrayList(getAvailableRenamingStrategies()));
+		comboBoxRenamingStrategy.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<RenamingStrategy>() {
+
+			@Override
+			public void changed(final ObservableValue<? extends RenamingStrategy> observable, final RenamingStrategy oldValue, final RenamingStrategy newValue) {
+
+				textFieldReplacementStringFrom.setDisable(!newValue.isReplacing());
+				textFieldReplacementStringTo.setDisable(!newValue.isReplacing());
+			}
 		});
-	sr.renamingStrategyProperty().bind(comboBoxRenamingStrategy.valueProperty());
-	sr.replacementStringFromProperty().bind(textFieldReplacementStringFrom.textProperty());
-	sr.replacementStringToProperty().bind(textFieldReplacementStringTo.textProperty());
-	sr.pathProperty().bind(textFieldStartDirectory.textProperty());
-	sr.recursiveProperty().bind(checkBox.selectedProperty());
-	sr.setPane(tilePane);
-	progressBar.progressProperty().bind(sr.progressProperty());
-	sr.setOnFailed(e -> {
-	    if (logger.isErrorEnabled()) {
-		logger.error(sr.getException().getLocalizedMessage(), sr.getException());
-	    }
-	    setWorking(false);
-	});
-	sr.setOnCancelled(e -> setWorking(false));
-	sr.setOnRunning(e -> {
-	    setWorking(true);
-	    tilePane.getChildren().clear();
-	});
-	sr.setOnSucceeded(e -> setWorking(false));
-    }
-
-    void setWorking(final boolean working) {
-	Platform.runLater(() -> setWorkingFX(working));
-
-    }
-
-    private void setWorkingFX(final boolean working) {
-	buttonGo.setDisable(false);
-	checkBox.setDisable(working);
-	textFieldReplacementStringFrom.setDisable(working);
-	textFieldReplacementStringTo.setDisable(working);
-	textFieldStartDirectory.setDisable(working);
-	comboBoxRenamingStrategy.setDisable(working);
-	if (working) {
-	    buttonGo.setText("Cancel");
-	} else {
-	    buttonGo.setText("Go");
+		sr.renamingStrategyProperty().bind(comboBoxRenamingStrategy.valueProperty());
+		sr.replacementStringFromProperty().bind(textFieldReplacementStringFrom.textProperty());
+		sr.replacementStringToProperty().bind(textFieldReplacementStringTo.textProperty());
+		sr.pathProperty().bind(textFieldStartDirectory.textProperty());
+		sr.recursiveProperty().bind(checkBox.selectedProperty());
+		sr.setPane(tilePane);
+		progressBar.progressProperty().bind(sr.progressProperty());
+		sr.setOnFailed(e -> {
+			if(logger.isErrorEnabled())
+				logger.error(sr.getException().getLocalizedMessage(), sr.getException());
+			setWorking(false);
+		});
+		sr.setOnCancelled(e -> setWorking(false));
+		sr.setOnRunning(e -> {
+			setWorking(true);
+			tilePane.getChildren().clear();
+		});
+		sr.setOnSucceeded(e -> setWorking(false));
 	}
-	progressBar.setVisible(working);
-	this.working = working;
 
-    }
+	private List<RenamingStrategy> getAvailableRenamingStrategies() {
 
+		final List<RenamingStrategy> result = new ArrayList<>();
+		// check the event history if strategies have been published already
+		Events.getInstance().getHistory().forEach(e -> {
+			if(e instanceof AvailableRenamingStrategyEvent)
+				result.add(((AvailableRenamingStrategyEvent)e).getData());
+		});
+		return result;
+	}
+
+	void setWorking(final boolean working) {
+
+		Platform.runLater(() -> setWorkingFX(working));
+	}
+
+	private void setWorkingFX(final boolean working) {
+
+		buttonGo.setDisable(false);
+		checkBox.setDisable(working);
+		textFieldReplacementStringFrom.setDisable(working);
+		textFieldReplacementStringTo.setDisable(working);
+		textFieldStartDirectory.setDisable(working);
+		comboBoxRenamingStrategy.setDisable(working);
+		if(working)
+			buttonGo.setText("Cancel");
+		else
+			buttonGo.setText("Go");
+		progressBar.setVisible(working);
+		this.working = working;
+	}
 }

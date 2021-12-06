@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+
+<VBox styleClass="root" xmlns:fx="http://javafx.com/fxml/1"
+	xmlns="http://javafx.com/javafx/8">
+	<stylesheets>
+		<URL value="@/css/root.css" />
+	</stylesheets>
+	<children>
+		<GridPane hgap="8">
+			<padding>
+				<Insets top="4" right="4" bottom="4" left="4" />
+			</padding>
+			<columnConstraints>
+				<ColumnConstraints hgrow="SOMETIMES"
+					minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES"
+					minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+			</columnConstraints>
+			<children>
+				<Label wrapText="true"  GridPane.rowIndex="0" GridPane.columnIndex="0"
+					text="Matches the filename without extension"></Label>
+				<TextField editable="false" GridPane.rowIndex="0"
+					GridPane.columnIndex="1" text="(.+?)(\.[^.]*$|$)"></TextField>
+			</children>
+		</GridPane>
+
+
+	</children>
+</VBox>
