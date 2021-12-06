@@ -9,7 +9,7 @@ addons:
   apt:
     packages:
       - oracle-java8-installer # Use JDK 8u45. The above line just causes the use of a minor version of Java 8.
-script: "mvn clean package -Dmaven.javadoc.skip=true -B -V"
+script: "mvn clean package"
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 notifications:

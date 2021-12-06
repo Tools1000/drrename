@@ -24,7 +24,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.drrename.strategy.RenamingStrategy;
 import com.github.drrename.ui.ConfirmDialogFactory;
 
 import net.sf.kerner.utils.concurrent.Pipe;
@@ -33,7 +32,6 @@ import net.sf.kerner.utils.concurrent.Pipe;
  *
  * @author alex
  */
-@Deprecated
 public class JobRename implements Callable<Void>, FileVisitor<Path> {
 
     public static interface Listener {
@@ -41,18 +39,24 @@ public class JobRename implements Callable<Void>, FileVisitor<Path> {
 	void nextFile(String oldName, String newName);
     }
 
-    private final List<Listener> listener = new ArrayList<>();
+    private final List<Listener> listener = new ArrayList<Listener>();
+
     private final RenamingStrategy renamingStrategy;
+
     private final String startDir;
+
     private final boolean recurseIntoSubDirectories;
+
     private int dirCnt = 0;
+
     private final AtomicBoolean yesAll = new AtomicBoolean(false);
+
     private List<String> directoryFilter = new ArrayList<>();
+
     private final Logger log = LoggerFactory.getLogger(JobRename.class);
 
     public JobRename(final RenamingStrategy renamingStrategy, final String startDir,
 	    final boolean recurseIntoSubDirectories) {
-
 	this.renamingStrategy = renamingStrategy;
 	this.startDir = startDir;
 	this.recurseIntoSubDirectories = recurseIntoSubDirectories;
@@ -60,9 +64,9 @@ public class JobRename implements Callable<Void>, FileVisitor<Path> {
 
     @Override
     public Void call() throws Exception {
-
-	if (startDir == null)
+	if (startDir == null) {
 	    throw new IllegalArgumentException("Please specify starting directory.");
+	}
 	try {
 	    readFilters();
 	} catch (final IOException e) {
@@ -78,17 +82,14 @@ public class JobRename implements Callable<Void>, FileVisitor<Path> {
     }
 
     public List<String> getDirectoryFilter() {
-
 	return directoryFilter;
     }
 
     public List<Listener> getListener() {
-
 	return listener;
     }
 
     private Set<FileVisitOption> getVisitingOptions() {
-
 	final Set<FileVisitOption> result = new LinkedHashSet<>();
 	result.add(FileVisitOption.FOLLOW_LINKS);
 	return result;
@@ -96,27 +97,26 @@ public class JobRename implements Callable<Void>, FileVisitor<Path> {
 
     @Override
     public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException {
-
 	return FileVisitResult.CONTINUE;
     }
 
     @Override
     public FileVisitResult preVisitDirectory(final Path dir, final BasicFileAttributes attrs) throws IOException {
-
 	if (Thread.interrupted()) {
 	    if (log.isDebugEnabled()) {
 		log.debug("Interrupted, skipping " + dir.getFileName());
 	    }
 	    return FileVisitResult.TERMINATE;
 	}
-	for (final String filter : directoryFilter)
+	for (final String filter : directoryFilter) {
 	    if (dir.getFileName().toString().startsWith(filter)) {
 		if (log.isDebugEnabled()) {
 		    log.debug(dir.getFileName() + " is filtered");
 		}
 		return FileVisitResult.SKIP_SUBTREE;
 	    }
-	if (recurseIntoSubDirectories || (dirCnt < 1)) {
+	}
+	if (recurseIntoSubDirectories || dirCnt < 1) {
 	    dirCnt++;
 	    return FileVisitResult.CONTINUE;
 	}
@@ -127,7 +127,6 @@ public class JobRename implements Callable<Void>, FileVisitor<Path> {
     }
 
     private void readFilters() throws IOException {
-
 	final String content = new String(Files.readAllBytes(Paths.get("dfilter.txt")));
 	final String[] filters = content.split("\n");
 	directoryFilter = Arrays.asList(filters);
@@ -135,18 +134,21 @@ public class JobRename implements Callable<Void>, FileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
-
 	try {
 	    final Pipe<Integer> exReturnval = new Pipe<>();
+
 	    final String result = renamingStrategy.getNameNew(file);
-	    if (result.equals(file.getFileName().toString()))
+	    if (result.equals(file.getFileName().toString())) {
 		// if (log.isDebugEnabled()) {
 		// log.debug("Nothing to do here, skipping " + result);
 		// }
 		return FileVisitResult.CONTINUE;
+	    }
+
 	    if (!yesAll.get()) {
 		ConfirmDialogFactory.showDialog(file, result, exReturnval);
 	    }
+
 	    if (yesAll.get()) {
 		try {
 		    renamingStrategy.rename(file, attrs);
@@ -166,7 +168,9 @@ public class JobRename implements Callable<Void>, FileVisitor<Path> {
 		}
 		return FileVisitResult.CONTINUE;
 	    }
+
 	    final int returnval = exReturnval.take();
+
 	    if (returnval == 0) {
 		try {
 		    renamingStrategy.rename(file, attrs);
@@ -181,13 +185,16 @@ public class JobRename implements Callable<Void>, FileVisitor<Path> {
 		}
 		return FileVisitResult.CONTINUE;
 	    }
+
 	    // cancel
-	    if (returnval == 2)
+	    if (returnval == 2) {
 		return FileVisitResult.TERMINATE;
-	    // no
-	    if (returnval == 1)
+		// no
+	    }
+	    if (returnval == 1) {
 		return FileVisitResult.CONTINUE;
-	    // no
+		// no
+	    }
 	    if (returnval == 3) {
 		yesAll.set(true);
 		if (log.isDebugEnabled()) {
@@ -209,21 +216,23 @@ public class JobRename implements Callable<Void>, FileVisitor<Path> {
 	    if (log.isWarnEnabled()) {
 		log.warn("Unknown return value " + returnval);
 	    }
+
 	} catch (final InterruptedException e1) {
 	    if (log.isInfoEnabled()) {
 		log.info(e1.toString());
 	    }
 	    return FileVisitResult.TERMINATE;
 	}
+
 	return FileVisitResult.CONTINUE;
     }
 
     @Override
     public FileVisitResult visitFileFailed(final Path file, final IOException exc) throws IOException {
-
 	if (log.isErrorEnabled()) {
 	    log.error(exc.getLocalizedMessage(), exc);
 	}
 	return FileVisitResult.CONTINUE;
     }
+
 }

@@ -1,4 +1,4 @@
-package com.github.drrename.ui;
+package com.github.drrename.ui.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -9,12 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.drrename.RenamingService;
-import com.github.drrename.event.AvailableRenamingStrategyEvent;
-import com.github.drrename.strategy.RenamingStrategy;
-import com.github.events1000.api.Event;
-import com.github.events1000.api.Events;
-import com.github.events1000.listener.api.AbstractSynchronousEventListener;
-import com.github.events1000.listener.api.SynchronousEventListener;
+import com.github.drrename.model.ImageDateRenamingStrategy;
+import com.github.drrename.model.RegexReplaceRenamingStrategy;
+import com.github.drrename.model.RenamingStrategy;
+import com.github.drrename.model.SimpleReplaceRenamingStrategy;
+import com.github.drrename.model.ToLowerCaseRenamingStrategy;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -30,53 +29,46 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-@Deprecated
 public class MainController implements Initializable {
 
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+
+    static List<RenamingStrategy> getRenamingStrategies() {
+	final List<RenamingStrategy> result = new ArrayList<>();
+	result.add(new SimpleReplaceRenamingStrategy());
+	result.add(new RegexReplaceRenamingStrategy());
+	result.add(new ToLowerCaseRenamingStrategy());
+	result.add(new ImageDateRenamingStrategy());
+
+	return result;
+    }
+
     private final RenamingService sr = new RenamingService();
+
     @FXML
     private CheckBox checkBox;
     @FXML
     private ComboBox<RenamingStrategy> comboBoxRenamingStrategy;
+
     @FXML
     private TextField textFieldReplacementStringFrom;
+
     @FXML
     private TextField textFieldReplacementStringTo;
+
     @FXML
     private TextField textFieldStartDirectory;
+
     @FXML
     private ProgressBar progressBar;
+
     @FXML
     private Button buttonGo;
+
     @FXML
     private VBox tilePane;
+
     private boolean working;
-    private final SynchronousEventListener stategyListener = new AbstractSynchronousEventListener(
-	    AvailableRenamingStrategyEvent.EVENT_TOPIC) {
-
-	@Override
-	public void handle(final Event e) {
-
-	    if (logger.isDebugEnabled()) {
-		logger.debug("Got event " + e);
-	    }
-	    if (e instanceof AvailableRenamingStrategyEvent) {
-		comboBoxRenamingStrategy.getItems().add(((AvailableRenamingStrategyEvent) e).getData());
-		comboBoxRenamingStrategy.getSelectionModel().selectFirst();
-	    }
-	}
-    };
-
-    public MainController() {
-
-	init();
-    }
-
-    private void init() {
-
-	Events.getInstance().registerListener(stategyListener);
-    }
 
     @FXML
     private void handleButtonActionGo(final ActionEvent event) {
@@ -93,15 +85,14 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
-
-	comboBoxRenamingStrategy.setItems(FXCollections.observableArrayList(getAvailableRenamingStrategies()));
+	comboBoxRenamingStrategy.setItems(FXCollections.observableArrayList(getRenamingStrategies()));
+	comboBoxRenamingStrategy.getSelectionModel().selectFirst();
 	comboBoxRenamingStrategy.getSelectionModel().selectedItemProperty()
 		.addListener(new ChangeListener<RenamingStrategy>() {
 
 		    @Override
 		    public void changed(final ObservableValue<? extends RenamingStrategy> observable,
 			    final RenamingStrategy oldValue, final RenamingStrategy newValue) {
-
 			textFieldReplacementStringFrom.setDisable(!newValue.isReplacing());
 			textFieldReplacementStringTo.setDisable(!newValue.isReplacing());
 		    }
@@ -127,25 +118,12 @@ public class MainController implements Initializable {
 	sr.setOnSucceeded(e -> setWorking(false));
     }
 
-    private List<RenamingStrategy> getAvailableRenamingStrategies() {
-
-	final List<RenamingStrategy> result = new ArrayList<>();
-	// check the event history if strategies have been published already
-	Events.getInstance().getHistory().forEach(e -> {
-	    if (e instanceof AvailableRenamingStrategyEvent) {
-		result.add(((AvailableRenamingStrategyEvent) e).getData());
-	    }
-	});
-	return result;
-    }
-
     void setWorking(final boolean working) {
-
 	Platform.runLater(() -> setWorkingFX(working));
+
     }
 
     private void setWorkingFX(final boolean working) {
-
 	buttonGo.setDisable(false);
 	checkBox.setDisable(working);
 	textFieldReplacementStringFrom.setDisable(working);
@@ -159,5 +137,7 @@ public class MainController implements Initializable {
 	}
 	progressBar.setVisible(working);
 	this.working = working;
+
     }
+
 }
