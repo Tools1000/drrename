@@ -111,7 +111,7 @@ public class MainController2 implements Initializable {
 
 	private void init() {
 
-		Events.getInstance().registerListener(stategyListener);
+		Events.getInstance().registerListener(AvailableRenamingStrategyEvent.EVENT_TOPIC,stategyListener);
 		textFieldChangeListener = (e, o, n) -> {
 			currentInputString = n;
 			Platform.runLater(() -> updateInputView());

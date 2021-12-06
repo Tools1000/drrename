@@ -3,12 +3,12 @@ package com.github.drrename;
 import java.io.File;
 import java.nio.file.Path;
 
+import com.github.ktools1000.io.BackupCreator;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 
 import com.github.drrename.strategy.RenamingStrategy;
-import com.github.ktools1000.io.BackupCreator;
 
 public abstract class AbstractRenamingStrategyTest {
 

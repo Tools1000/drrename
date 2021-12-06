@@ -72,7 +72,7 @@ public class MainController implements Initializable {
 
 	private void init() {
 
-		Events.getInstance().registerListener(stategyListener);
+		Events.getInstance().registerListener(AvailableRenamingStrategyEvent.EVENT_TOPIC,stategyListener);
 	}
 
 	@FXML
