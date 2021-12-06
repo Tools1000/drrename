@@ -26,6 +26,9 @@ hs_err_pid*
 **/.idea/
 **.iml
 
+# Eclipse
+**/.settings/
+
 # Maven
 **/target/
 **/*.xml.releaseBackup
