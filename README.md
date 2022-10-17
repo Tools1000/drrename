@@ -13,7 +13,7 @@ You need to have Java **17** installed.
 
 ## Installation and Starting
 
-Download [latest Release](https://github.com/drrename/drrename/releases/latest) and call `java -jar drrename-<current-version>.jar`. A double click on the jar-file could also work.
+Download [latest Release](https://github.com/drrename/drrename/releases/latest) and call `java -jar drrename-<current-version>-<arch-classifier>.jar`. A double click on the jar-file could also work.
 
 Note that Java needs to be installed.
 
