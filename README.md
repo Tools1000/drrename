@@ -9,7 +9,7 @@ Minimalistic Batch-Renamer
 
 ## Prerequirements
 
-You need to have Java *17* installed.
+You need to have Java **17** installed.
 
 ## Installation and Starting
 
