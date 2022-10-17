@@ -17,8 +17,13 @@ Download [latest Release](https://github.com/drrename/drrename/releases/latest) 
 
 Note that Java needs to be installed.
 
-### Examples
+## Examples
+
 0. Get extension from MIME type. Note that this will also add missing extensions
     ![example-add-missing-extension.png](./screens/example-missing-extension.png)
 1. Replace any space by an underscore
     ![example-replace-space-by-underscore.png](./screens/example-replace-space-by-underscore.png)
+    
+## Kodi Tools
+
+### Examples
