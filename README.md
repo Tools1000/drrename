@@ -17,7 +17,11 @@ Download [latest Release](https://github.com/drrename/drrename/releases/latest) 
 
 Note that Java needs to be installed.
 
-## Examples
+## Renaming Files
+
+## Renaming Photos
+
+### Examples
 
 0. Get extension from MIME type. Note that this will also add missing extensions
     ![example-add-missing-extension.png](./screens/example-missing-extension.png)
