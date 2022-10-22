@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/DrRename/drrename/badge.svg)](https://coveralls.io/github/DrRename/drrename)
 [![Latest Release](https://img.shields.io/github/release/drrename/drrename.svg)](https://github.com/drrename/drrename/releases/latest)
 
-Minimalistic Batch-Renamer
+Dr.Rename is a minimalistic and fast batch-renamer for files and photos. It also comes with "Kodi-Tools", which provide functionality to check the integrity of a [Kodi media library](https://kodi.tv/).
 
 ## Prerequirements
 
@@ -27,3 +27,7 @@ Note that Java needs to be installed.
 ## Kodi Tools
 
 ### Examples
+
+## Under the Hood
+
+Dr.Rename is written in Java and uses JavaFX as a UI Toolkit. Furthermore, it uses [Spring Boot](https://spring.io/projects/spring-boot) as the base framework.
