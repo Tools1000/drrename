@@ -19,14 +19,13 @@ Note that Java needs to be installed.
 
 ## Renaming Files
 
+0. Replace any space by an underscore ![example-replace-space-by-underscore.png](./screens/example-replace-space-by-underscore.png)
+
 ## Renaming Photos
 
 ### Examples
 
-0. Get extension from MIME type. Note that this will also add missing extensions
-    ![example-add-missing-extension.png](./screens/example-missing-extension.png)
-1. Replace any space by an underscore
-    ![example-replace-space-by-underscore.png](./screens/example-replace-space-by-underscore.png)
+0. Get extension from MIME type. Note that this will also add missing extensions ![example-add-missing-extension.png](./screens/example-missing-extension.png)
     
 ## Kodi Tools
 
