@@ -33,4 +33,4 @@ Note that Java needs to be installed.
 
 ## Under the Hood
 
-Dr.Rename is written in Java and uses JavaFX as a UI Toolkit. Furthermore, it uses [Spring Boot](https://spring.io/projects/spring-boot) as the base framework.
+Dr.Rename is written in Java and uses [JavaFX](https://openjfx.io/) as a UI Toolkit. Furthermore, it uses [Spring Boot](https://spring.io/projects/spring-boot) as the base framework.
