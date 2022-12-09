@@ -14,28 +14,28 @@
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=DrRename_drrename&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=DrRename_drrename)
 [![Latest Release](https://img.shields.io/github/release/drrename/drrename.svg)](https://github.com/drrename/drrename/releases/latest)
 
-Minimalistic Batch-Renamer
+## Minimalistic Batch-Renamer
 
-## Prerequirements
+### Prerequirements
 
 You need to have Java **17** installed.
 
-## Installation and Starting
+### Installation and Starting
 
 Download [latest Release](https://github.com/drrename/drrename/releases/latest) and call `java -jar drrename-<current-version>.jar`. A double click on the jar-file could also work.
 
 Note that Java needs to be installed.
 
-## Examples
+### Examples
 
 1. Replace any space by an underscore ![example-replace-space-by-underscore.png](./screens/example-replace-space-by-underscore.png)
 
-### Pictures
+#### Pictures
 
 1. Get extension from MIME type. Note that this will also add missing extensions:
  ![example-add-missing-extension.png](./screens/example-missing-extension.png)
 
-## Kodi Tools
+### Kodi Tools
 
 Open Kodi Tools via `File` -> `Kodi Tools`.
 
