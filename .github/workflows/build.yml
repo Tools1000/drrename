@@ -18,7 +18,7 @@ defaults:
 
 jobs:
   build:
-    name: Compile and Test
+    name: SonarCloud
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]')"
     steps:
@@ -35,9 +35,7 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: Build and Test
-        run: >
-          xvfb-run
-          mvn -B verify
+        run: mvn -B verify
           jacoco:report
           org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
           -Pcoverage,dependency-check
@@ -47,7 +45,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      - name: Jacoco Report
-        run: mvn -B test jacoco:report --file pom.xml
-      - name: Coveralls Report
-        run: mvn -B test coveralls:report --define repoToken=${{ secrets.COVERALL_REPO_SECRET }} --file pom.xml
