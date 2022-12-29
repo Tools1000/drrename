@@ -81,9 +81,6 @@ public class TabController extends DebuggableController implements Initializable
     public RenameController renameController;
 
     @FXML
-    public KodiToolsController kodiToolsController;
-
-    @FXML
     public DummyFileCreatorController dummyFileCreatorController;
 
     //
@@ -121,7 +118,7 @@ public class TabController extends DebuggableController implements Initializable
         protected void prepareUi() {
             super.prepareUi();
             renameController.clearView();
-            kodiToolsController.clearView();
+
 
         }
 
@@ -129,7 +126,7 @@ public class TabController extends DebuggableController implements Initializable
         protected void onSucceeded(WorkerStateEvent workerStateEvent) {
             renameController.updateFileTypeInfo();
             renameController.updatePreview();
-            kodiToolsController.updateInputView();
+
             log.debug("Service {} finished", workerStateEvent.getSource());
         }
 
@@ -160,7 +157,7 @@ public class TabController extends DebuggableController implements Initializable
 
         super.initialize(url, resourceBundle);
 
-        log.debug("FXML injected controllers: {}, {}, {}, {}", startDirectoryController, renameController, kodiToolsController, dummyFileCreatorController);
+        log.debug("FXML injected controllers: {}, {}, {}, {}", startDirectoryController, renameController,  dummyFileCreatorController);
         FXUtil.initAppMenu(menuBar);
         applicationStyle.currentStyleSheetProperty().addListener(this::themeChanged);
         Platform.runLater(() -> applyTheme(null, applicationStyle.getCurrentStyleSheet()));
@@ -186,7 +183,6 @@ public class TabController extends DebuggableController implements Initializable
             // we are ready. Starting is triggered by input change listener
         } else {
             renameController.cancelCurrentOperationAndClearView();
-            kodiToolsController.cancelCurrentOperationAndClearView();
         }
     }
 
