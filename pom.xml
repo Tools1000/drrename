@@ -1,3 +1,23 @@
+<!--
+  ~     Dr.Rename - A Minimalistic Batch Renamer
+  ~
+  ~     Copyright (C) 2023
+  ~
+  ~     This file is part of Dr.Rename.
+  ~
+  ~     You can redistribute it and/or modify it under the terms of the GNU Affero
+  ~     General Public License as published by the Free Software Foundation, either
+  ~     version 3 of the License, or (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful, but WITHOUT
+  ~     ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  ~     FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License
+  ~     for more details.
+  ~
+  ~     You should have received a copy of the GNU Affero General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -259,6 +279,44 @@
                                 <goals>
                                     <goal>build-info</goal>
                                 </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>io.github.fvarrui</groupId>
+                        <artifactId>javapackager</artifactId>
+                        <version>1.7.0</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                                <configuration>
+                                    <mainClass>${main-class}</mainClass>
+                                    <bundleJre>true</bundleJre>
+                                    <runnableJar>${project.build.directory}/${project.artifactId}-${project.version}-mac.jar</runnableJar>
+                                    <additionalModules>java.desktop,jdk.unsupported,java.scripting</additionalModules>
+                                    <generateInstaller>false</generateInstaller>
+                                    <administratorRequired>false</administratorRequired>
+                                    <copyDependencies>false</copyDependencies>
+                                    <platform>mac</platform>
+                                    <name>DrRename</name>
+                                    <assetsDir>assets</assetsDir>
+                                    <organizationEmail>support@drrename.app</organizationEmail>
+                                    <organizationUrl>https://drrename.app</organizationUrl>
+                                    <url>https://drrename.app</url>
+                                    <version>1.0.28</version>
+                                    <macConfig>
+                                        <customLauncher>src/main/resources/launcher.sh</customLauncher>
+                                        <developerId>3rd Party Mac Developer Application: Alexander Kerner (5W26Y2F3CM)</developerId>
+                                        <appId>com.drrename</appId>
+                                        <codesignApp>true</codesignApp>
+                                        <infoPlist>
+                                            <bundlePackageType>APPL</bundlePackageType>
+                                        </infoPlist>
+                                    </macConfig>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

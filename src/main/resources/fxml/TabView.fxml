@@ -38,11 +38,11 @@
         <fx:include fx:id="startDirectory" source="StartDirectoryComponent.fxml"/>
             <TabPane maxHeight="Infinity" VBox.vgrow="ALWAYS" >
                 <tabs>
-                    <Tab text="Rename" closable="false">
-                        <fx:include source="RenameView.fxml"/>
+                    <Tab fx:id="renameTab" text="Rename" closable="false">
+                        <fx:include fx:id="rename" source="RenameView.fxml"/>
                     </Tab>
-                    <Tab text="File Creator" closable="false">
-                        <fx:include source="DummyFileCreatorView.fxml"/>
+                    <Tab fx:id="dummyFileTab" text="File Creator" closable="false">
+                        <fx:include fx:id="dummyFileCreator" source="DummyFileCreatorView.fxml"/>
                     </Tab>
                 </tabs>
             </TabPane>

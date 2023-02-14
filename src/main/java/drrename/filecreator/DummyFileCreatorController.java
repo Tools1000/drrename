@@ -20,7 +20,7 @@
 package drrename.filecreator;
 
 import drrename.config.AppConfig;
-import drrename.kodi.ui.ServiceStarter;
+import drrename.ServiceStarter;
 import drrename.ui.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

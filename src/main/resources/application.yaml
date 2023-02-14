@@ -32,7 +32,7 @@ app:
   word-cnt: 3
   loop-delay-ms: 300
   reset-delay-ms: 500
-  debug: false
+  debug: true
   kodi:
     ui:
       imageHeight: 265

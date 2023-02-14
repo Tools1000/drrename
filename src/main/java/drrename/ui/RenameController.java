@@ -25,7 +25,7 @@ import drrename.FileTypeByMimeProvider;
 import drrename.FileTypeProvider;
 import drrename.RenamingControl;
 import drrename.config.AppConfig;
-import drrename.kodi.ui.ServiceStarter;
+import drrename.ServiceStarter;
 import drrename.strategy.RenamingConfig;
 import drrename.strategy.RenamingStrategies;
 import drrename.strategy.RenamingStrategy;

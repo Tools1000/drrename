@@ -19,4 +19,4 @@
 #
 
 cd "$(dirname "$0")" || exit
-Plugins/jre/Contents/Home/bin/java -version
+../Plugins/jre/Contents/Home/bin/java -jar "../Resources/Java/drrename-0.14.1-SNAPSHOT-mac.jar"
