@@ -8,9 +8,9 @@
     </parent>
     <groupId>app.drrename</groupId>
     <artifactId>drrename</artifactId>
-    <version>0.2.15-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>DrRename</name>
-    <description>Minimalistic Media Library Tool</description>
+    <description>Minimalistic batch renaming tool.</description>
     <properties>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
         <maven.javadoc.skip>true</maven.javadoc.skip>
@@ -21,6 +21,7 @@
         <javafx.version>19.0.2.1</javafx.version>
         <spring-boot.version>2.7.4</spring-boot.version>
         <spring-cloud.version>3.1.14</spring-cloud.version>
+        <codesignjava.version>3.0.0-SNAPSHOT</codesignjava.version>
         <modularGroupIds>org.openjfx</modularGroupIds>
     </properties>
     <scm>
@@ -40,14 +41,6 @@
         <repository>
             <id>jitpack</id>
             <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>github</id>
-            <name>GitHub Packages DrRename Commons</name>
-            <url>https://maven.pkg.github.com/drrename/drrename-commons</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
         </repository>
     </repositories>
     <pluginRepositories>
@@ -277,9 +270,9 @@
             <version>1.0.5</version>
         </dependency>
         <dependency>
-            <groupId>drrename</groupId>
+            <groupId>io.github.drrename</groupId>
             <artifactId>drrename-commons</artifactId>
-            <version>0.0.1</version>
+            <version>0.0.4</version>
         </dependency>
     </dependencies>
     <profiles>
@@ -292,49 +285,22 @@
                 <finalName>${project.artifactId}-${javafx.platform}</finalName>
                 <plugins>
                     <plugin>
-                        <groupId>io.github.drrename.codesignjava</groupId>
-                        <artifactId>codesignjava-maven-plugin</artifactId>
-                        <version>2.0.5-SNAPSHOT</version>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>3.3.0</version>
                         <executions>
                             <execution>
-                                <id>default</id>
+                                <id>parse-version</id>
                                 <goals>
-                                    <goal>package-and-codesign</goal>
+                                    <goal>parse-version</goal>
                                 </goals>
                             </execution>
                         </executions>
-                        <configuration>
-                            <jreModuleNames>java.desktop, java.base,java.logging, java.xml, java.scripting, java.compiler,
-                                java.instrument, jdk.unsupported, javafx.base, javafx.graphics,
-                                javafx.controls,javafx.fxml, java.sql, java.naming
-                            </jreModuleNames>
-                            <jreModules>${project.build.directory}/mods</jreModules>
-                            <applicationModulesPath>${project.build.directory}/libs</applicationModulesPath>
-                            <appVersion>1.0.0</appVersion>
-                            <moduleName>DrRename</moduleName>
-                            <packageIdentifier>com.drrename</packageIdentifier>
-                            <moduleStarter>drrename/drrename.Launcher</moduleStarter>
-                            <developerId>${MAC_DEVELOPER_ID}</developerId>
-                            <apiKey>${MAC_API_KEY_ID}</apiKey>
-                            <apiIssuer>${MAC_API_ISSUER_ID}</apiIssuer>
-                            <zipName>${project.artifactId}-${javafx.platform}</zipName>
-                        </configuration>
                     </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>macosx-x86_64</id>
-            <properties>
-                <javafx.platform>mac</javafx.platform>
-            </properties>
-            <build>
-                <finalName>${project.artifactId}-${javafx.platform}</finalName>
-                <plugins>
                     <plugin>
                         <groupId>io.github.drrename.codesignjava</groupId>
                         <artifactId>codesignjava-maven-plugin</artifactId>
-                        <version>2.0.5-SNAPSHOT</version>
+                        <version>${codesignjava.version}</version>
                         <executions>
                             <execution>
                                 <id>default</id>
@@ -350,15 +316,102 @@
                             </jreModuleNames>
                             <jreModules>${project.build.directory}/mods</jreModules>
                             <applicationModulesPath>${project.build.directory}/libs</applicationModulesPath>
-                            <appVersion>1.0.0</appVersion>
-                            <moduleName>DrRename</moduleName>
+                            <appVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</appVersion>
+                            <icon>${basedir}/src/main/resources/drrename.icns</icon>
+                            <moduleName>Dr.Rename</moduleName>
                             <packageIdentifier>com.drrename</packageIdentifier>
                             <moduleStarter>drrename/drrename.Launcher</moduleStarter>
                             <developerId>${MAC_DEVELOPER_ID}</developerId>
-                            <apiKey>${MAC_API_KEY_ID}</apiKey>
-                            <apiIssuer>${MAC_API_ISSUER_ID}</apiIssuer>
-                            <zipName>${project.artifactId}-${javafx.platform}</zipName>
+                            <keychainProfile>notary-profile</keychainProfile>
                         </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.coderplus.maven.plugins</groupId>
+                        <artifactId>copy-rename-maven-plugin</artifactId>
+                        <version>1.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>rename-dmg</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <sourceFile>target/appdir/Dr.Rename-${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.dmg</sourceFile>
+                                    <destinationFile>target/${project.artifactId}-${javafx.platform}-${project.version}.dmg</destinationFile>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>macosx-x86_64</id>
+            <properties>
+                <javafx.platform>mac</javafx.platform>
+            </properties>
+            <build>
+                <finalName>${project.artifactId}-${javafx.platform}</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>3.3.0</version>
+                        <executions>
+                            <execution>
+                                <id>parse-version</id>
+                                <goals>
+                                    <goal>parse-version</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>io.github.drrename.codesignjava</groupId>
+                        <artifactId>codesignjava-maven-plugin</artifactId>
+                        <version>${codesignjava.version}</version>
+                        <executions>
+                            <execution>
+                                <id>default</id>
+                                <goals>
+                                    <goal>package-and-codesign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <jreModuleNames>java.desktop, java.base,java.logging, java.xml, java.scripting, java.compiler,
+                                java.instrument, jdk.unsupported, javafx.base, javafx.graphics,
+                                javafx.controls, javafx.fxml, java.sql, java.naming
+                            </jreModuleNames>
+                            <jreModules>${project.build.directory}/mods</jreModules>
+                            <applicationModulesPath>${project.build.directory}/libs</applicationModulesPath>
+                            <appVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</appVersion>
+                            <icon>${basedir}/src/main/resources/drrename.icns</icon>
+                            <moduleName>Dr.Rename</moduleName>
+                            <packageIdentifier>com.drrename</packageIdentifier>
+                            <moduleStarter>drrename/drrename.Launcher</moduleStarter>
+                            <developerId>${MAC_DEVELOPER_ID}</developerId>
+                            <keychainProfile>notary-profile</keychainProfile>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.coderplus.maven.plugins</groupId>
+                        <artifactId>copy-rename-maven-plugin</artifactId>
+                        <version>1.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>rename-dmg</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <sourceFile>target/appdir/Dr.Rename-${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.dmg</sourceFile>
+                                    <destinationFile>target/${project.artifactId}-${javafx.platform}-${project.version}.dmg</destinationFile>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
@@ -372,9 +425,22 @@
                 <finalName>${project.artifactId}-${javafx.platform}</finalName>
                 <plugins>
                     <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>3.3.0</version>
+                        <executions>
+                            <execution>
+                                <id>parse-version</id>
+                                <goals>
+                                    <goal>parse-version</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
                         <groupId>io.github.drrename.codesignjava</groupId>
                         <artifactId>codesignjava-maven-plugin</artifactId>
-                        <version>2.0.5-SNAPSHOT</version>
+                        <version>3.0.0-SNAPSHOT</version>
                         <executions>
                             <execution>
                                 <id>default</id>
@@ -390,10 +456,12 @@
                             </jreModuleNames>
                             <jreModules>${project.build.directory}/mods</jreModules>
                             <applicationModulesPath>${project.build.directory}/libs</applicationModulesPath>
-                            <appVersion>1.0.0</appVersion>
+                            <appVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</appVersion>
                             <moduleName>DrRename</moduleName>
                             <moduleStarter>drrename/drrename.Launcher</moduleStarter>
-                            <zipName>${project.artifactId}-${javafx.platform}</zipName>
+                            <linuxDebMaintainer>alexkerner1000@gmail.com</linuxDebMaintainer>
+                            <linuxMenuGroup>Dr.Kodi</linuxMenuGroup>
+                            <resourceDir>${basedir}/dist/linux/debian</resourceDir>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -408,9 +476,22 @@
                 <finalName>${project.artifactId}-${javafx.platform}</finalName>
                 <plugins>
                     <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>3.3.0</version>
+                        <executions>
+                            <execution>
+                                <id>parse-version</id>
+                                <goals>
+                                    <goal>parse-version</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
                         <groupId>io.github.drrename.codesignjava</groupId>
                         <artifactId>codesignjava-maven-plugin</artifactId>
-                        <version>2.0.5-SNAPSHOT</version>
+                        <version>3.0.0-SNAPSHOT</version>
                         <executions>
                             <execution>
                                 <id>default</id>
@@ -426,10 +507,11 @@
                             </jreModuleNames>
                             <jreModules>${project.build.directory}/mods</jreModules>
                             <applicationModulesPath>${project.build.directory}/libs</applicationModulesPath>
-                            <appVersion>1.0.0</appVersion>
-                            <moduleName>DrRename</moduleName>
+                            <appVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</appVersion>
+                             <resourceDir>${basedir}/dist/windows</resourceDir>
+                            <moduleName>Dr.Rename</moduleName>
                             <moduleStarter>drrename/drrename.Launcher</moduleStarter>
-                            <zipName>${project.artifactId}-${javafx.platform}</zipName>
+                            <winUpgradeUuid>699ee830-b2a1-11ed-afa1-0242ac120002</winUpgradeUuid>
                         </configuration>
                     </plugin>
                 </plugins>

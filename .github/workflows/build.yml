@@ -43,12 +43,76 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar
       - name: Maven Build, Test
         run: mvn -Dsonar.host.url="https://sonarcloud.io" -Dsonar.organization=drrename -Dsonar.projectKey=DrRename_drrename -B verify jacoco:report sonar:sonar
+
+  build_macos_x86_64:
+    name: Build MacOS x86_64 App
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      MAC_DEVELOPER_ID: ${{ secrets.MAC_DEVELOPER_ID }}
+      MAC_DEVELOPER_CERTIFICATE: ${{ secrets.MAC_DEVELOPER_CERTIFICATE }}
+      MAC_DEVELOPER_CERTIFICATE_PASSWORD: ${{ secrets.MAC_DEVELOPER_CERTIFICATE_PASSWORD }}
+      KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+      MAC_API_ISSUER_ID: ${{ secrets.MAC_API_ISSUER_ID }}
+      MAC_API_KEY_ID: ${{ secrets.MAC_API_KEY_ID }}
+      MAC_API_KEY: ${{ secrets.MAC_API_KEY }}
+
+    runs-on: macos-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: 'maven'
+          distribution: 'temurin'
+      - name: Install the Apple certificate and provisioning profile
+        run: |
+          # create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          mkdir ~/private_keys
+          MAC_API_KEY_PATH=~/private_keys/AuthKey_$MAC_API_KEY_ID.p8
+          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          
+          echo "API key path: $MAC_API_KEY_PATH"
+          
+          # import certificate and provisioning profile from secrets
+          echo -n "$MAC_DEVELOPER_CERTIFICATE" | base64 --decode --output $CERTIFICATE_PATH
+          echo -n "$MAC_API_KEY" | base64 --decode --output $MAC_API_KEY_PATH
+          
+          # create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          
+          # import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$MAC_DEVELOPER_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+          
+          # set up notary
+          xcrun notarytool store-credentials notary-profile --key-id "$MAC_API_KEY_ID" --issuer "$MAC_API_ISSUER_ID" --key "$MAC_API_KEY_PATH"
+
+      - name: Print environment
+        uses: hmarr/debug-action@v2
+
+      - name: Maven Deploy
+        run: mvn -B deploy -DskipTests -Dmaven.javadoc.skip=true -Pmacosx-x86_64 -Djavafx.platform=mac
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          if-no-files-found: error
+          path: |
+            target/drrename-*.dmg
+
   build_linux_x86_64:
     name: Build Linux x86_64 App
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     runs-on: ubuntu-latest
-    if: startsWith(github.event.ref, 'refs/tags/drrename-version-')
     steps:
       - name: Check out
         uses: actions/checkout@v3
@@ -77,74 +141,14 @@ jobs:
         with:
           if-no-files-found: error
           path: |
-            target/drrename-*.zip
-  build_macos_x86_64:
-    name: Build MacOS x86_64 App
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      MAC_DEVELOPER_ID: ${{ secrets.MAC_DEVELOPER_ID }}
-      MAC_DEVELOPER_CERTIFICATE: ${{ secrets.MAC_DEVELOPER_CERTIFICATE }}
-      MAC_DEVELOPER_CERTIFICATE_PASSWORD: ${{ secrets.MAC_DEVELOPER_CERTIFICATE_PASSWORD }}
-      KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-      MAC_API_ISSUER_ID: ${{ secrets.MAC_API_ISSUER_ID }}
-      MAC_API_KEY_ID: ${{ secrets.MAC_API_KEY_ID }}
-      MAC_API_KEY: ${{ secrets.MAC_API_KEY }}
+            target/appdir/drename-*.deb
+            target/appdir/DrRename-*.zip
 
-    runs-on: macos-latest
-    if: startsWith(github.event.ref, 'refs/tags/drrename-version-')
-    steps:
-      - name: Check out
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Set up Java
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{ env.JAVA_VERSION }}
-          cache: 'maven'
-          distribution: 'temurin'
-      - name: Install the Apple certificate and provisioning profile
-        run: |
-          # create variables
-          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
-          mkdir ~/private_keys
-          MAC_API_KEY_PATH=~/private_keys/AuthKey_$MAC_API_KEY_ID.p8
-          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
-          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
-          
-          echo "API key path: $MAC_API_KEY_PATH"
-
-          # import certificate and provisioning profile from secrets
-          echo -n "$MAC_DEVELOPER_CERTIFICATE" | base64 --decode --output $CERTIFICATE_PATH
-          echo -n "$MAC_API_KEY" | base64 --decode --output $MAC_API_KEY_PATH
-
-          # create temporary keychain
-          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-
-          # import certificate to keychain
-          security import $CERTIFICATE_PATH -P "$MAC_DEVELOPER_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
-          security list-keychain -d user -s $KEYCHAIN_PATH
-
-      - name: Print environment
-        uses: hmarr/debug-action@v2
-
-      - name: Maven Deploy
-        run: mvn -B deploy -DskipTests -Dmaven.javadoc.skip=true -Pmacosx-x86_64 -Djavafx.platform=mac
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          if-no-files-found: error
-          path: |
-            target/drrename-*.zip
   build_windows_x86_64:
     name: Build Windows x86_64 App
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     runs-on: windows-latest
-    if: startsWith(github.event.ref, 'refs/tags/drrename-version-')
     steps:
       - name: Check out
         uses: actions/checkout@v3
@@ -173,12 +177,14 @@ jobs:
         with:
           if-no-files-found: error
           path: |
-            target/drrename-*.zip
+            target/appdir/Dr.Rename-*.msi
+
   draft_release:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     name: Draft a Release
     runs-on: ubuntu-latest
+    if: startsWith(github.event.ref, 'refs/tags/drkodi-version-')
     needs: [build_linux_x86_64, build_macos_x86_64, build_windows_x86_64]
     steps:
       - name: Download artifacts
@@ -190,5 +196,8 @@ jobs:
         with:
           draft: true
           files: |
-            drrename*.zip
+            Dr.Rename-*.zip
+            drrename-*.dmg
+            Dr.Rename-*.msi
+            Dr.Rename-*.deb
           fail_on_unmatched_files: true
