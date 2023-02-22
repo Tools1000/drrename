@@ -203,8 +203,8 @@ jobs:
         with:
           draft: true
           files: |
-            Dr.Rename-*.zip
+            DrRename-*.zip
             drrename-*.dmg
             Dr.Rename-*.msi
-            Dr.Rename-*.deb
+            DrRename-*.deb
           fail_on_unmatched_files: true

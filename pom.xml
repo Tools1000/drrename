@@ -460,7 +460,7 @@
                             <moduleName>DrRename</moduleName>
                             <moduleStarter>drrename/drrename.Launcher</moduleStarter>
                             <linuxDebMaintainer>alexkerner1000@gmail.com</linuxDebMaintainer>
-                            <linuxMenuGroup>Dr.Kodi</linuxMenuGroup>
+                            <linuxMenuGroup>Dr.Rename</linuxMenuGroup>
                             <resourceDir>${basedir}/dist/linux/debian</resourceDir>
                         </configuration>
                     </plugin>
