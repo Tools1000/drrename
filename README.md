@@ -3,18 +3,15 @@
 <img align="right" width="100" height="100" src="drrename_1024.png">
 
 [![Build](https://github.com/drrename/drrename/actions/workflows/build.yml/badge.svg)](https://github.com/drrename/drrename/actions/workflows/build.yml)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=DrRename_drrename&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=DrRename_drrename)
+
+[![Latest Release](https://img.shields.io/github/release/drrename/drrename.svg)](https://github.com/drrename/drrename/releases/latest)
+[![Release Date](https://img.shields.io/github/release-date/drrename/drrename.svg)](https://github.com/drrename/drrename/releases/latest)
+[![License](https://img.shields.io/github/license/drrename/drrename.svg)](https://github.com/drrename/drrename/blob/master/LICENSE)
+
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=DrRename_drrename&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=DrRename_drrename)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=DrRename_drrename&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=DrRename_drrename)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=DrRename_drrename&metric=bugs)](https://sonarcloud.io/summary/new_code?id=DrRename_drrename)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=DrRename_drrename&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=DrRename_drrename)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=DrRename_drrename&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=DrRename_drrename)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=DrRename_drrename&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=DrRename_drrename)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DrRename_drrename&metric=alert_status)](https://sonarcloud.io/dashboard?id=DrRename_drrename)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=DrRename_drrename&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=DrRename_drrename)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=DrRename_drrename&metric=coverage)](https://sonarcloud.io/summary/new_code?id=DrRename_drrename)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=DrRename_drrename&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=DrRename_drrename)
-[![Latest Release](https://img.shields.io/github/release/drrename/drrename.svg)](https://github.com/drrename/drrename/releases/latest)
 
 Minimalistic Batch-Renamer
 
