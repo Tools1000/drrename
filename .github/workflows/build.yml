@@ -148,8 +148,8 @@ jobs:
         with:
           if-no-files-found: error
           path: |
-            target/appdir/drename_*.deb
-            target/appdir/DrRename-*.zip
+            target/appdir/drrename*.deb
+            target/appdir/DrRename*.zip
 
   build_windows_x86_64:
     name: Build Windows x86_64 App
