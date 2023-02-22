@@ -189,7 +189,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     name: Draft a Release
     runs-on: ubuntu-latest
-    if: startsWith(github.event.ref, 'refs/tags/drkodi-version-')
+    if: startsWith(github.event.ref, 'refs/tags/drrename-version-')
     needs: [build_linux_x86_64, build_macos_x86_64, build_windows_x86_64]
     steps:
       - name: Download artifacts
