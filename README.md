@@ -1,5 +1,7 @@
 # Dr.Rename
 
+<img align="right" width="100" height="100" src="drrename_1024.png">
+
 [![Build](https://github.com/drrename/drrename/actions/workflows/build.yml/badge.svg)](https://github.com/drrename/drrename/actions/workflows/build.yml)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=DrRename_drrename&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=DrRename_drrename)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=DrRename_drrename&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=DrRename_drrename)

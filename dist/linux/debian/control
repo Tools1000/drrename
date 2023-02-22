@@ -1,0 +1,11 @@
+Architecture: amd64
+Package: DrRename
+Version: 1.0.0
+Section: utils
+Maintainer: kerner1000 <alexkerner1000@gmail.com>
+Priority: optional
+Provides: drrename
+XB-AppName: Dr.Rename
+XB-Category: Utility;Security;FileTools;
+Homepage: test
+Description: test
