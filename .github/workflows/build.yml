@@ -206,5 +206,5 @@ jobs:
             DrRename-*.zip
             drrename-*.dmg
             Dr.Rename-*.msi
-            drrename-*.deb
+            drrename_*.deb
           fail_on_unmatched_files: true
