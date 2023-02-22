@@ -317,12 +317,12 @@
                             <jreModules>${project.build.directory}/mods</jreModules>
                             <applicationModulesPath>${project.build.directory}/libs</applicationModulesPath>
                             <appVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</appVersion>
-                            <icon>${basedir}/src/main/resources/drrename.icns</icon>
+                            <icon>${basedir}/dist/mac/drrename.icns</icon>
                             <moduleName>Dr.Rename</moduleName>
                             <packageIdentifier>com.drrename</packageIdentifier>
                             <moduleStarter>drrename/drrename.Launcher</moduleStarter>
-                            <developerId>${MAC_DEVELOPER_ID}</developerId>
-                            <keychainProfile>notary-profile</keychainProfile>
+                            <macDdeveloperId>${MAC_DEVELOPER_ID}</macDeveloperId>
+                            <macKeychainProfile>notary-profile</macKeychainProfile>
                         </configuration>
                     </plugin>
                     <plugin>
@@ -387,12 +387,12 @@
                             <jreModules>${project.build.directory}/mods</jreModules>
                             <applicationModulesPath>${project.build.directory}/libs</applicationModulesPath>
                             <appVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</appVersion>
-                            <icon>${basedir}/src/main/resources/drrename.icns</icon>
+                            <icon>${basedir}/dist/mac/drrename.icns</icon>
                             <moduleName>Dr.Rename</moduleName>
                             <packageIdentifier>com.drrename</packageIdentifier>
                             <moduleStarter>drrename/drrename.Launcher</moduleStarter>
-                            <developerId>${MAC_DEVELOPER_ID}</developerId>
-                            <keychainProfile>notary-profile</keychainProfile>
+                            <macDeveloperId>${MAC_DEVELOPER_ID}</macDeveloperId>
+                            <macKeychainProfile>notary-profile</macKeychainProfile>
                         </configuration>
                     </plugin>
                     <plugin>
