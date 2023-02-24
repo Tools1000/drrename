@@ -15,7 +15,7 @@ logging:
 
 app:
   name: drrename
-  debug: true
+  debug: false
   settings:
     parent: ${user.home}
     dir: ${app.settings.parent}/${app.name}
