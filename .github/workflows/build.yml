@@ -44,6 +44,7 @@ jobs:
         run: mvn -Dsonar.host.url="https://sonarcloud.io" -Dsonar.organization=drrename -Dsonar.projectKey=DrRename_drrename -B -Pall verify jacoco:report sonar:sonar
 
   build_macos_x86_64:
+    needs: [compile_and_test]
     name: Build MacOS x86_64 App
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -110,6 +111,7 @@ jobs:
             target/drrename-*.dmg
 
   build_linux_x86_64:
+    needs: [compile_and_test]
     name: Build Linux x86_64 App
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -139,6 +141,7 @@ jobs:
             target/appdir/DrRename*.zip
 
   build_windows_x86_64:
+    needs: [compile_and_test]
     name: Build Windows x86_64 App
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
