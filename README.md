@@ -2,11 +2,11 @@
 
 <img align="right" width="100" height="100" src="drrename_1024.png">
 
-[![Build](https://github.com/drrename/drrename/actions/workflows/build.yml/badge.svg)](https://github.com/drrename/drrename/actions/workflows/build.yml)
+[![Build](https://github.com/tools1000/drrename/actions/workflows/build.yml/badge.svg)](https://github.com/tools1000/drrename/actions/workflows/build.yml)
 
-[![Latest Release](https://img.shields.io/github/release/drrename/drrename.svg)](https://github.com/drrename/drrename/releases/latest)
-[![Release Date](https://img.shields.io/github/release-date/drrename/drrename.svg)](https://github.com/drrename/drrename/releases/latest)
-[![License](https://img.shields.io/github/license/drrename/drrename.svg)](https://github.com/drrename/drrename/blob/master/LICENSE)
+[![Latest Release](https://img.shields.io/github/release/tools1000/drrename.svg)](https://github.com/tools1000/drrename/releases/latest)
+[![Release Date](https://img.shields.io/github/release-date/tools1000/drrename.svg)](https://github.com/tools1000/drrename/releases/latest)
+[![License](https://img.shields.io/github/license/tools1000/drrename.svg)](https://github.com/tools1000/drrename/blob/master/LICENSE)
 
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Tools1000_drrename&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Tools1000_drrename)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Tools1000_drrename&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Tools1000_drrename)

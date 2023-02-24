@@ -1,7 +1,7 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: drrename
 Upstream-Contact: Dr.DrRename <alexkerner1000@gmail.com>
-Source: https://github.com/DrRename/drrename
+Source: https://github.com/tools1000/drrename
 
 Copyright: 2022-2023 Dr.Rename
 
