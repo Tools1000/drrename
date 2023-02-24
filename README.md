@@ -8,10 +8,10 @@
 [![Release Date](https://img.shields.io/github/release-date/drrename/drrename.svg)](https://github.com/drrename/drrename/releases/latest)
 [![License](https://img.shields.io/github/license/drrename/drrename.svg)](https://github.com/drrename/drrename/blob/master/LICENSE)
 
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=DrRename_drrename&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=DrRename_drrename)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=DrRename_drrename&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=DrRename_drrename)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=DrRename_drrename&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=DrRename_drrename)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=DrRename_drrename&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=DrRename_drrename)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Tools1000_drrename&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Tools1000_drrename)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Tools1000_drrename&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Tools1000_drrename)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Tools1000_drrename&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Tools1000_drrename)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Tools1000_drrename&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Tools1000_drrename)
 
 ## Examples
 
