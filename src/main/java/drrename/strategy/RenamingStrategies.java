@@ -46,6 +46,7 @@ public class RenamingStrategies implements Iterable<RenamingStrategy> {
         renamingStrategies.add(new CleanupStrategy(resourceBundle, renamingConfig));
         renamingStrategies.add(new MediaMetadataRenamingStrategy(resourceBundle, renamingConfig));
         renamingStrategies.add(new ToLowerCaseRenamingStrategy(resourceBundle, renamingConfig));
+        renamingStrategies.add(new FixExtensionStrategy(resourceBundle, renamingConfig));
         renamingStrategies.add(new SpaceToCamelCaseRenamingStrategy(resourceBundle, renamingConfig));
         renamingStrategies.add(new UnhideStrategy(resourceBundle, renamingConfig));
         renamingStrategies.add(new ExtensionFromMimeStrategy(resourceBundle, renamingConfig));
