@@ -33,7 +33,6 @@ jobs:
           cache: 'maven'
           distribution: 'temurin'
 
-
       - name: Build app image
         run: mvn -B -DskipTests -Dmaven.javadoc.skip=true -P${{ inputs.maven-profile }},all package
 
@@ -50,16 +49,38 @@ jobs:
             --ignore-signing-information \
             --compress=2
 
-          - name: Build jpackage app image
-            run: |
-              APP_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | sed 's/-SNAPSHOT//')
-              $JAVA_HOME/bin/jpackage \
-                --type app-image \
-                --name Dr.Rename \
-                --app-version "$APP_VERSION" \
-                --runtime-image target/runtime \
-                --module drrename/drrename.Launcher \
-                --module-path target/classes:target/mods:target/libs \
-                --dest target/jpackage \
-                --icon dist/mac/drrename.icns \
-                --mac-package-identifier com.drrename
+      - name: Build jpackage app image
+        run: |
+          APP_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | sed 's/-SNAPSHOT//')
+          $JAVA_HOME/bin/jpackage \
+            --type app-image \
+            --name Dr.Rename \
+            --app-version "$APP_VERSION" \
+            --runtime-image target/runtime \
+            --module drrename/drrename.Launcher \
+            --module-path target/classes:target/mods:target/libs \
+            --dest target/jpackage \
+            --icon dist/mac/drrename.icns \
+            --mac-package-identifier com.drrename
+
+      - name: Codesign, package and notarize
+        uses: kerner1000/github-actions/codesign-macos@main
+        with:
+          app-name: Dr.Rename
+          certificate: ${{ secrets.MACOS_CERTIFICATE }}
+          certificate-password: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
+          apple-id: ${{ secrets.MACOS_NOTARIZATION_APPLE_ID }}
+          team-id: ${{ secrets.MACOS_NOTARIZATION_TEAM_ID }}
+          notarization-password: ${{ secrets.MACOS_NOTARIZATION_PASSWORD }}
+          identity: ${{ inputs.signing-identity }}
+          jpackage-output-dir: target/jpackage
+          entitlements-file: dist/mac/Dr.Rename.entitlements
+          icon-file: dist/mac/drrename.icns
+          background-file: dist/mac/installer-background.png
+
+      - name: Upload DMG
+        uses: actions/upload-artifact@v4
+        with:
+          name: DrRename-macOS-${{ inputs.maven-profile }}
+          path: target/jpackage/Dr.Rename-*.dmg
+          if-no-files-found: error
