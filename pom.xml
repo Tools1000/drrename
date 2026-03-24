@@ -292,63 +292,6 @@
             </properties>
             <build>
                 <finalName>${project.artifactId}-${javafx.platform}</finalName>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>3.1.0</version>
-                        <executions>
-                            <execution>
-                                <id>jlink</id>
-                                <phase>package</phase>
-                                <goals><goal>exec</goal></goals>
-                                <configuration>
-                                    <executable>${java.home}/bin/jlink</executable>
-                                    <arguments>
-                                        <argument>--module-path</argument>
-                                        <argument>${project.build.directory}/mods:${project.build.directory}/libs:${project.build.directory}</argument>
-                                        <argument>--add-modules</argument>
-                                        <argument>java.desktop,java.base,java.logging,java.xml,java.scripting,java.compiler,java.instrument,jdk.unsupported,javafx.base,javafx.graphics,javafx.controls,javafx.fxml,java.sql,java.naming</argument>
-                                        <argument>--output</argument>
-                                        <argument>${project.build.directory}/runtime</argument>
-                                        <argument>--strip-native-commands</argument>
-                                        <argument>--strip-java-debug-attributes</argument>
-                                        <argument>--no-header-files</argument>
-                                        <argument>--no-man-pages</argument>
-                                        <argument>--ignore-signing-information</argument>
-                                        <argument>--compress=zip-6</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>jpackage</id>
-                                <phase>package</phase>
-                                <goals><goal>exec</goal></goals>
-                                <configuration>
-                                    <executable>${java.home}/bin/jpackage</executable>
-                                    <arguments>
-                                        <argument>--type</argument>
-                                        <argument>app-image</argument>
-                                        <argument>--name</argument>
-                                        <argument>Dr.Rename</argument>
-                                        <argument>--runtime-image</argument>
-                                        <argument>${project.build.directory}/runtime</argument>
-                                        <argument>--module</argument>
-                                        <argument>drrename/drrename.Launcher</argument>
-                                        <argument>--module-path</argument>
-                                        <argument>${project.build.directory}/mods:${project.build.directory}/libs:${project.build.directory}</argument>
-                                        <argument>--dest</argument>
-                                        <argument>${project.build.directory}/jpackage</argument>
-                                        <argument>--icon</argument>
-                                        <argument>${basedir}/dist/mac/drrename.icns</argument>
-                                        <argument>--mac-package-identifier</argument>
-                                        <argument>com.drrename</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
             </build>
         </profile>
         <profile>
@@ -358,63 +301,6 @@
             </properties>
             <build>
                 <finalName>${project.artifactId}-${javafx.platform}</finalName>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>3.1.0</version>
-                        <executions>
-                            <execution>
-                                <id>jlink</id>
-                                <phase>package</phase>
-                                <goals><goal>exec</goal></goals>
-                                <configuration>
-                                    <executable>${java.home}/bin/jlink</executable>
-                                    <arguments>
-                                        <argument>--module-path</argument>
-                                        <argument>${project.build.directory}/mods:${project.build.directory}/libs:${project.build.directory}</argument>
-                                        <argument>--add-modules</argument>
-                                        <argument>java.desktop,java.base,java.logging,java.xml,java.scripting,java.compiler,java.instrument,jdk.unsupported,javafx.base,javafx.graphics,javafx.controls,javafx.fxml,java.sql,java.naming</argument>
-                                        <argument>--output</argument>
-                                        <argument>${project.build.directory}/runtime</argument>
-                                        <argument>--strip-native-commands</argument>
-                                        <argument>--strip-java-debug-attributes</argument>
-                                        <argument>--no-header-files</argument>
-                                        <argument>--no-man-pages</argument>
-                                        <argument>--ignore-signing-information</argument>
-                                        <argument>--compress=zip-6</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>jpackage</id>
-                                <phase>package</phase>
-                                <goals><goal>exec</goal></goals>
-                                <configuration>
-                                    <executable>${java.home}/bin/jpackage</executable>
-                                    <arguments>
-                                        <argument>--type</argument>
-                                        <argument>app-image</argument>
-                                        <argument>--name</argument>
-                                        <argument>Dr.Rename</argument>
-                                        <argument>--runtime-image</argument>
-                                        <argument>${project.build.directory}/runtime</argument>
-                                        <argument>--module</argument>
-                                        <argument>drrename/drrename.Launcher</argument>
-                                        <argument>--module-path</argument>
-                                        <argument>${project.build.directory}/mods:${project.build.directory}/libs:${project.build.directory}</argument>
-                                        <argument>--dest</argument>
-                                        <argument>${project.build.directory}/jpackage</argument>
-                                        <argument>--icon</argument>
-                                        <argument>${basedir}/dist/mac/drrename.icns</argument>
-                                        <argument>--mac-package-identifier</argument>
-                                        <argument>com.drrename</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
             </build>
         </profile>
         <profile>

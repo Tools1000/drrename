@@ -33,27 +33,31 @@ jobs:
           cache: 'maven'
           distribution: 'temurin'
 
+
       - name: Build app image
         run: mvn -B -DskipTests -Dmaven.javadoc.skip=true -P${{ inputs.maven-profile }},all package
 
-      - name: Codesign, package and notarize
-        uses: kerner1000/github-actions/codesign-macos@main
-        with:
-          app-name: Dr.Rename
-          certificate: ${{ secrets.MACOS_CERTIFICATE }}
-          certificate-password: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
-          apple-id: ${{ secrets.MACOS_NOTARIZATION_APPLE_ID }}
-          team-id: ${{ secrets.MACOS_NOTARIZATION_TEAM_ID }}
-          notarization-password: ${{ secrets.MACOS_NOTARIZATION_PASSWORD }}
-          identity: ${{ inputs.signing-identity }}
-          jpackage-output-dir: target/jpackage
-          entitlements-file: dist/mac/Dr.Rename.entitlements
-          icon-file: dist/mac/drrename.icns
-          background-file: dist/mac/installer-background.png
+      - name: Build jlink runtime
+        run: |
+          $JAVA_HOME/bin/jlink \
+            --module-path target/mods:target/libs:target \
+            --add-modules java.desktop,java.base,java.logging,java.xml,java.scripting,java.compiler,java.instrument,jdk.unsupported,javafx.base,javafx.graphics,javafx.controls,javafx.fxml,java.sql,java.naming \
+            --output target/runtime \
+            --strip-native-commands \
+            --strip-java-debug-attributes \
+            --no-header-files \
+            --no-man-pages \
+            --ignore-signing-information \
+            --compress=zip-6
 
-      - name: Upload DMG
-        uses: actions/upload-artifact@v4
-        with:
-          name: DrRename-macOS-${{ inputs.maven-profile }}
-          path: target/jpackage/Dr.Rename-*.dmg
-          if-no-files-found: error
+      - name: Build jpackage app image
+        run: |
+          $JAVA_HOME/bin/jpackage \
+            --type app-image \
+            --name Dr.Rename \
+            --runtime-image target/runtime \
+            --module drrename/drrename.Launcher \
+            --module-path target/mods:target/libs:target \
+            --dest target/jpackage \
+            --icon dist/mac/drrename.icns \
+            --mac-package-identifier com.drrename
