@@ -55,7 +55,7 @@ public class ListFilesTask extends DrRenameTask<Void> {
     }
 
     private void handleNewEntry(int progress, RenamingControl renamingControl) {
-        Platform.runLater(() -> entries.getEntries().add(renamingControl));
+        Platform.runLater(() -> entries.addEntry(renamingControl));
         updateProgress(progress, files.size());
     }
 }

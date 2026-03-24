@@ -191,6 +191,16 @@ public class Entries {
         statusRenamedFileTypes.set(String.format(resourceBundle.getString(RENAMED_TYPES), renamedImageEntries.size(), renamedVideosEntries.size()));
     }
 
+    public void addEntry(RenamingControl entry) {
+        boolean isDuplicate = entries.stream()
+                .anyMatch(e -> e.getOldPath().equals(entry.getOldPath()));
+        if (!isDuplicate) {
+            entries.add(entry);
+        } else {
+            log.debug("Skipping duplicate entry: {}", entry.getOldPath());
+        }
+    }
+
     // FX Getter / Setter //
 
 

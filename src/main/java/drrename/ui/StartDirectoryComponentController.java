@@ -65,11 +65,15 @@ public class StartDirectoryComponentController implements Initializable, Applica
         inputPath = new SimpleObjectProperty<>();
         textFieldChangeListener = (e, o, n) -> updateInput(n);
         textFieldDirectory.textProperty().addListener(textFieldChangeListener);
-        textFieldDirectory.setOnDragOver(event -> {
-            if ((event.getGestureSource() != textFieldDirectory) && event.getDragboard().hasFiles()) {
-                /* allow for both copying and moving, whatever user chooses */
-                event.acceptTransferModes(TransferMode.ANY);
+        textFieldDirectory.setOnDragDropped(event -> {
+            final Dragboard db = event.getDragboard();
+            boolean success = false;
+            if (db.hasFiles()) {
+                // Accept both directories and individual files
+                textFieldDirectory.setText(db.getFiles().iterator().next().getPath());
+                success = true;
             }
+            event.setDropCompleted(success);
             event.consume();
         });
         textFieldDirectory.setOnDragDropped(event -> {
@@ -104,8 +108,10 @@ public class StartDirectoryComponentController implements Initializable, Applica
                     log.debug("cannot write to {}", inputPath);
                     ready.set(false);
                 }
+            } else if (Files.isRegularFile(inputPath) && Files.isWritable(inputPath)) {
+                ready.set(true);
             } else {
-                log.debug("{} is not a directory", inputPath);
+                log.debug("{} is not a readable/writable file or directory", inputPath);
                 ready.set(false);
             }
         } else {

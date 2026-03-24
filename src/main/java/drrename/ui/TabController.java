@@ -35,14 +35,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import lombok.extern.slf4j.Slf4j;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executor;
 
@@ -105,6 +109,8 @@ public class TabController extends DebuggableController implements Initializable
 
     private final Label progressLabel;
 
+    private boolean appendMode = false;
+
     // Nested classes //
 
     private class LoadServiceStarter extends ServiceStarter<LoadPathsService> {
@@ -116,9 +122,9 @@ public class TabController extends DebuggableController implements Initializable
         @Override
         protected void prepareUi() {
             super.prepareUi();
-            renameController.clearView();
-
-
+            if (!appendMode) {
+                renameController.clearView();
+            }
         }
 
         @Override
@@ -170,6 +176,30 @@ public class TabController extends DebuggableController implements Initializable
 
         progressAndStatusGrid.getProgressStatusBox().getChildren().add(progressLabel);
 
+        // Enable drag-and-drop of files directly onto the main view
+        root.setOnDragOver(event -> {
+            if (event.getGestureSource() != root && event.getDragboard().hasFiles()) {
+                event.acceptTransferModes(TransferMode.ANY);
+            }
+            event.consume();
+        });
+        root.setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            if (db.hasFiles()) {
+                List<Path> paths = db.getFiles().stream()
+                        .map(File::toPath)
+                        .collect(java.util.stream.Collectors.toList());
+                appendMode = true;
+                loadPathsService.setFiles(paths);
+                loadServiceStarter.startService();
+                appendMode = false;
+                success = true;
+            }
+            event.setDropCompleted(success);
+            event.consume();
+        });
+
     }
 
     @Override
@@ -187,6 +217,7 @@ public class TabController extends DebuggableController implements Initializable
 
     private void getNewInputPathChangeListener(ObservableValue<? extends Path> observable, Path oldValue, Path newValue) {
         if (startDirectoryController.isReady()) {
+            appendMode = false;
             loadPathsService.setFiles(Collections.singleton(newValue));
             loadServiceStarter.startService();
         }

@@ -328,6 +328,12 @@ public class RenameController extends DebuggableController implements Initializa
         leftContent.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         rightContent.setEditable(false);
 
+        leftContent.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case DELETE, BACK_SPACE -> removeSelectedEntries();
+            }
+        });
+
 
     }
 
@@ -455,6 +461,11 @@ public class RenameController extends DebuggableController implements Initializa
     public void clearView() {
         entries.getEntries().clear();
         entries.getEntriesRenamed().clear();
+    }
+
+    private void removeSelectedEntries() {
+        var selectedControls = new ArrayList<>(leftContent.getSelectionModel().getSelectedItems());
+        entries.getEntries().removeIf(rc -> selectedControls.contains(rc.getLeftControl()));
     }
 
     public void cancelCurrentOperation() {

@@ -65,9 +65,7 @@ public class ListDirectoryTask extends DrRenameTask<Void> {
     }
 
     protected void handleNewEntry(RenamingControl renamingControl) {
-        Platform.runLater(() -> {
-            entries.getEntries().add(renamingControl);
-        });
+        Platform.runLater(() -> entries.addEntry(renamingControl));
     }
 
     private void checkState() {
