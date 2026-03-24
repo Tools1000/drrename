@@ -50,14 +50,16 @@ jobs:
             --ignore-signing-information \
             --compress=2
 
-      - name: Build jpackage app image
-        run: |
-          $JAVA_HOME/bin/jpackage \
-            --type app-image \
-            --name Dr.Rename \
-            --runtime-image target/runtime \
-            --module drrename/drrename.Launcher \
-            --module-path target/classes:target/mods:target/libs \
-            --dest target/jpackage \
-            --icon dist/mac/drrename.icns \
-            --mac-package-identifier com.drrename
+          - name: Build jpackage app image
+            run: |
+              APP_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | sed 's/-SNAPSHOT//')
+              $JAVA_HOME/bin/jpackage \
+                --type app-image \
+                --name Dr.Rename \
+                --app-version "$APP_VERSION" \
+                --runtime-image target/runtime \
+                --module drrename/drrename.Launcher \
+                --module-path target/classes:target/mods:target/libs \
+                --dest target/jpackage \
+                --icon dist/mac/drrename.icns \
+                --mac-package-identifier com.drrename
