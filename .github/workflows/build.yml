@@ -37,7 +37,7 @@ jobs:
         run: mvn -B -DskipTests -Dmaven.javadoc.skip=true -P${{ inputs.maven-profile }},all package
 
       - name: Codesign, package and notarize
-        uses: tools1000/github-actions/codesign-macos@main
+        uses: kerner1000/github-actions/codesign-macos@main
         with:
           app-name: Dr.Rename
           certificate: ${{ secrets.MACOS_CERTIFICATE }}
