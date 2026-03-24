@@ -36,23 +36,23 @@ jobs:
       - name: Build app image
         run: mvn -B -DskipTests -Dmaven.javadoc.skip=true -P${{ inputs.maven-profile }},all package
 
+
       - name: Build jpackage app image
         run: |
           APP_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | sed 's/-SNAPSHOT//')
-          # Merge everything into a single input directory
-          cp target/drrename-mac-aarch64.jar target/libs/
-          cp target/mods/*.jar target/libs/
+          cp target/drrename-*.jar target/libs/
           $JAVA_HOME/bin/jpackage \
             --type app-image \
             --name Dr.Rename \
             --app-version "$APP_VERSION" \
             --input target/libs \
-            --main-jar drrename-mac-aarch64.jar \
+            --main-jar $(ls target/libs/drrename-*.jar | xargs basename) \
             --main-class drrename.Launcher \
+            --module-path target/mods \
+            --add-modules java.desktop,java.base,java.logging,java.xml,java.scripting,java.compiler,java.instrument,jdk.unsupported,javafx.base,javafx.graphics,javafx.controls,javafx.fxml,java.sql,java.naming \
             --dest target/jpackage \
             --icon dist/mac/drrename.icns \
-            --mac-package-identifier com.drrename \
-            --add-modules java.desktop,java.base,java.logging,java.xml,java.scripting,java.compiler,java.instrument,jdk.unsupported,javafx.base,javafx.graphics,javafx.controls,javafx.fxml,java.sql,java.naming
+            --mac-package-identifier com.drrename
 
       - name: Codesign, package and notarize
         uses: kerner1000/github-actions/codesign-macos@main
