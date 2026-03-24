@@ -50,6 +50,7 @@ public class RenamingStrategies implements Iterable<RenamingStrategy> {
         renamingStrategies.add(new UnhideStrategy(resourceBundle, renamingConfig));
         renamingStrategies.add(new ExtensionFromMimeStrategy(resourceBundle, renamingConfig));
         renamingStrategies.add(new CapitalizeFirstStrategy(resourceBundle, renamingConfig));
+        renamingStrategies.add(new RemoveDuplicateSpecialCharsStrategy(resourceBundle, renamingConfig));
     }
 
     @Override
