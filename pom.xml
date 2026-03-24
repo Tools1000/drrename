@@ -306,7 +306,7 @@
                                     <executable>${java.home}/bin/jlink</executable>
                                     <arguments>
                                         <argument>--module-path</argument>
-                                        <argument>${project.build.directory}/mods${path.separator}${project.build.directory}/libs${path.separator}${project.build.directory}</argument>
+                                        <argument>${project.build.directory}/mods:${project.build.directory}/libs:${project.build.directory}</argument>
                                         <argument>--add-modules</argument>
                                         <argument>java.desktop,java.base,java.logging,java.xml,java.scripting,java.compiler,java.instrument,jdk.unsupported,javafx.base,javafx.graphics,javafx.controls,javafx.fxml,java.sql,java.naming</argument>
                                         <argument>--output</argument>
@@ -336,7 +336,7 @@
                                         <argument>--module</argument>
                                         <argument>drrename/drrename.Launcher</argument>
                                         <argument>--module-path</argument>
-                                        <argument>${project.build.directory}/mods${path.separator}${project.build.directory}/libs${path.separator}${project.build.directory}</argument>
+                                        <argument>${project.build.directory}/mods:${project.build.directory}/libs:${project.build.directory}</argument>
                                         <argument>--dest</argument>
                                         <argument>${project.build.directory}/jpackage</argument>
                                         <argument>--icon</argument>
@@ -372,7 +372,7 @@
                                     <executable>${java.home}/bin/jlink</executable>
                                     <arguments>
                                         <argument>--module-path</argument>
-                                        <argument>${project.build.directory}/mods${path.separator}${project.build.directory}/libs${path.separator}${project.build.directory}</argument>
+                                        <argument>${project.build.directory}/mods:${project.build.directory}/libs:${project.build.directory}</argument>
                                         <argument>--add-modules</argument>
                                         <argument>java.desktop,java.base,java.logging,java.xml,java.scripting,java.compiler,java.instrument,jdk.unsupported,javafx.base,javafx.graphics,javafx.controls,javafx.fxml,java.sql,java.naming</argument>
                                         <argument>--output</argument>
@@ -402,7 +402,7 @@
                                         <argument>--module</argument>
                                         <argument>drrename/drrename.Launcher</argument>
                                         <argument>--module-path</argument>
-                                        <argument>${project.build.directory}/mods${path.separator}${project.build.directory}/libs${path.separator}${project.build.directory}</argument>
+                                        <argument>${project.build.directory}/mods:${project.build.directory}/libs:${project.build.directory}</argument>
                                         <argument>--dest</argument>
                                         <argument>${project.build.directory}/jpackage</argument>
                                         <argument>--icon</argument>
