@@ -48,7 +48,7 @@ jobs:
             --no-header-files \
             --no-man-pages \
             --ignore-signing-information \
-            --compress=zip-6
+            --compress=2
 
       - name: Build jpackage app image
         run: |
